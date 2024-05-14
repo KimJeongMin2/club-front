@@ -81,7 +81,7 @@ export default function TabBar() {
 
   return (
     <Box
-      position="fixed"
+      position="static"
       sx={{
         marginTop: '10px',
         width: '100%',
