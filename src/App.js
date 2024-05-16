@@ -5,7 +5,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import MainPage from "./main/MainPage";
-import CreateNotice from "./club/CreateNotice";
+import CreateNotice from "./club/master/CreateNotice";
+import MemberRecruitment from "./club/common/MemberRecruitment";
+import MemberRecruitmentDetail from "./club/common/MemberRecruitmentDetail";
+
 
 function App() {
   return (
@@ -13,6 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage/>}></Route>
         <Route path="/clubNotice" element={<CreateNotice/>}></Route>
+        <Route path="/MemberRecruitment" element={<MemberRecruitment/>}></Route>
+        <Route path="/MemberRecruitmentDetail/:id" element={<MemberRecruitmentDetail />} />
       </Routes>
     </Router>
   );

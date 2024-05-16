@@ -14,7 +14,7 @@ export default function Board() {
                 color: "#F2BED1",
             }}
             onClick={() => {
-                navigate("/hhh")
+                navigate("/memberRecruitment")
             }}
             ></AddIcon>
         </Grid>
