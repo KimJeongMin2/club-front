@@ -1,7 +1,8 @@
 import { Grid, Typography } from "@mui/material";
-import ButtonAppBar from "../common/MainAppBar";
+import ButtonAppBar from "../../common/MainAppBar";
 import Editor from "./Editor";
 import CreateNoticeHeader from "./CreateNoticeHeader";
+
 
 export default function CreateNotice(){
     return(
