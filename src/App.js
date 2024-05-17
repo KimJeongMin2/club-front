@@ -8,7 +8,7 @@ import MainPage from "./main/MainPage";
 import CreateNotice from "./club/master/CreateNotice";
 import MemberRecruitment from "./club/common/MemberRecruitment";
 import MemberRecruitmentDetail from "./club/common/MemberRecruitmentDetail";
-import CreateClub from "./club/master/CreateClub"; // 경로에 맞게 수정
+import CreateClub from "./club/master/CreateClub";
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         <Route path="/clubNotice" element={<CreateNotice/>}></Route>
         <Route path="/MemberRecruitment" element={<MemberRecruitment/>}></Route>
         <Route path="/MemberRecruitmentDetail/:id" element={<MemberRecruitmentDetail />} />
-        <Route path="/CreateClub" element={<CreateClub/>} /> {/* 경로 확인 */}
+        <Route path="/CreateClub" element={<CreateClub/>} />
       </Routes>
     </Router>
   );
