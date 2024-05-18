@@ -12,3 +12,8 @@ export const photoFileState = atom({
     key: 'photoFileState',
     default: null,
   });
+
+export const noticeListState = atom({
+    key:"noticeListState",
+    default:[]
+})  
