@@ -4,12 +4,29 @@ import MemberRecruitmentList from "./MemberRecruitmentList";
 import NoticeList from "./noticeList";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import instance from "../../api/instance";
+import { noticeListState } from "../../recoil/state/noticeState";
 export default function Notice() {
   const noticeData = [
     { id: 1, name: "동아리A", notice: "동아리A 공지" },
     { id: 2, name: "동아리B", notice: "동아리B 공지" },
   ];
   const navigate = useNavigate();
+
+    
+  const [noticeList, setNoticeList] = useRecoilState(noticeListState);
+    
+  useEffect(() => {
+      instance
+          .get("/posts")
+          .then((response) => {
+            setNoticeList(response?.data);
+            console.log("noticeList", response?.data)
+          })
+          .catch((error) => console.error(error));
+  }, []);  
 
   return (
     <Box sx={{ flexDirection: "column" }}>
@@ -45,7 +62,7 @@ export default function Notice() {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              {noticeData?.map((data) => (
+              {noticeList?.map((data) => (
                 <Grid item xs={1} key={data.id}>
                   <NoticeList noticeData={data} />
                 </Grid>
