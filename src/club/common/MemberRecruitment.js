@@ -3,12 +3,17 @@ import ButtonAppBar from "../../common/MainAppBar";
 import MemberRecruitmentList from "./MemberRecruitmentList";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
+import instance from "../../api/instance";
+import { noticeListState } from "../../recoil/state/noticeState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect } from "react";
 
 
 export default function MemberRecruitment() {
     const clubData = [{ id: 1, name: '동아리A', description: '동아리A 소개'}, 
                       { id: 2, name: '동아리B', description: '동아리B 소개'}]
-
+                      
+                
     const navigate = useNavigate();
 
     const handleFabClick = () => {

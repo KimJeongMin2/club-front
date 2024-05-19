@@ -23,9 +23,9 @@ export default function MemberRecruitmentDetail() {
           }}
         >
           <Grid container direction={"column"} spacing={1}>
-            <Box sx={{ border: "1px dashed grey", bgcolor: "lightgrey", borderRadius:"10px" }}>
+            <Box sx={{ border: "1px dashed grey", bgcolor: '#GA0023', borderRadius:"10px" }}>
               <Grid item xs={5}>
-                <Typography>{club?.name}</Typography>
+                <Typography>{club?.title}</Typography>
               </Grid>
               <Grid item xs={5}>
                 <Typography>

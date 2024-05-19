@@ -13,9 +13,10 @@ export default function EventNotice() {
           <AddIcon
             style={{
               color: "#F2BED1",
+              cursor:"pointer"
             }}
             onClick={() => {
-              navigate("/clubNotice");
+              navigate("/Notice");
             }}
           ></AddIcon>
         </Grid>

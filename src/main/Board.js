@@ -12,6 +12,7 @@ export default function Board() {
         <Grid item xs={1}>
             <AddIcon style={{
                 color: "#F2BED1",
+                cursor:"pointer"
             }}
             onClick={() => {
                 navigate("/memberRecruitment")
