@@ -9,12 +9,11 @@ import {
     Stack,
     Typography,
   } from "@mui/material";
-  import BusinessIcon from "@mui/icons-material/Business";
-  import CallIcon from "@mui/icons-material/Call";
-  import EmailIcon from "@mui/icons-material/Email";
-  import AddLocationIcon from "@mui/icons-material/AddLocation";
+
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
+  import DeleteIcon from '@mui/icons-material/Delete';
+import instance from "../../api/instance";
   export default function NoticeList({ noticeData }) {
     console.log("noticeData", noticeData.postId);
     const navigate = useNavigate();
@@ -37,6 +36,24 @@ import {
     const handleApply = () => {
       navigate(`/MemberRecruitmentDetail/${noticeData.postId}`, { state: { noticeData } });
     };
+
+    const sendDeleteNotice = (noticeId) => {
+      if (window.confirm("삭제하시겠습니까?")) {
+          instance
+              .delete(`/posts/${noticeId}`, {
+                  withCredentials: true,
+              })
+              .then((response) => {
+                  console.log(response);
+                  window.location.reload();
+              })
+              .catch((error) => {
+                  console.log(error);
+              });
+      } else {
+          alert("취소합니다.");
+      }
+  };
   
     return (
       <Box sx={{ flexDirection: "row", width: "900px", borderRadius: 3, mt: 5 }}>
@@ -102,6 +119,7 @@ import {
               >
                 신청
               </Button>
+              <DeleteIcon onClick={()=>sendDeleteNotice(noticeData?.postId)}/>
             </CardContent>
           </Grid>
         </Card>
