@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { Box, Grid, TextField, Button, MenuItem, Typography } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
+import axios from "axios";
+import instance from "../../api/instance";
 
 const CreateClub = () => {
+
+  const [member, setMember] = useState({
+    studentId: 1,
+    name: "서영은",
+  });
+
   const [formData, setFormData] = useState({
-    type: 'CENTER',
+    type: '',
     clubName: '',
     applicantName: '',
     applicantDepartment: '',
     applicantId: '',
-    applicantPhoneNum: '',
+    applicantPhone: '',
     professorName: '',
     professorMajor: '',
     professorPhone: '',
+    member: member,
   });
 
   const handleChange = (e) => {
@@ -23,10 +32,48 @@ const CreateClub = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    // const curmemberPk = 1; // 임의로 둠
+
+    try {
+      const clubData = {
+        type: formData.type,
+        clubName: formData.clubName,
+        applicantName: formData.applicantName,
+        applicantDepartment: formData.applicantDepartment,
+        applicantId: formData.applicantId,
+        applicantPhone: formData.applicantPhone,
+        professorName: formData.professorName,
+        professorMajor: formData.professorMajor,
+        professorPhone: formData.professorPhone,
+        member: member
+      };
+
+      console.log("clubData", clubData)
+
+      const response = await instance.post(
+        // `club?memberPk=${curmemberPk}`,
+        "club",
+        clubData,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+
+      );
+
+      console.log('Club created:', response.data);
+    } catch (error) {
+      console.error('Error creating club:', error);
+    }
   };
+
 
   return (
     <Box sx={{ flexDirection: "column", width: "100%" }}>
@@ -90,8 +137,8 @@ const CreateClub = () => {
               <TextField
                 fullWidth
                 label="신청자 연락처"
-                name="applicantPhoneNum"
-                value={formData.applicantPhoneNum}
+                name="applicantPhone"
+                value={formData.applicantPhone}
                 onChange={handleChange}
               />
             </Grid>
