@@ -12,7 +12,7 @@ const CreateClub = () => {
     applicantPhoneNum: '',
     professorName: '',
     professorMajor: '',
-    professorPhone: '',
+    professorPhoneNum: '',
   });
 
   const handleChange = (e) => {
@@ -118,7 +118,7 @@ const CreateClub = () => {
                 fullWidth
                 label="지도교수 연락처"
                 name="professorPhone"
-                value={formData.professorPhone}
+                value={formData.professorPhoneNum}
                 onChange={handleChange}
               />
             </Grid>
