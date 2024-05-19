@@ -5,6 +5,12 @@ import axios from "axios";
 import instance from "../../api/instance";
 
 const CreateClub = () => {
+
+  const [member, setMember] = useState({
+    studentId: 1,
+    name: "서영은",
+  });
+
   const [formData, setFormData] = useState({
     type: '',
     clubName: '',
@@ -15,6 +21,7 @@ const CreateClub = () => {
     professorName: '',
     professorMajor: '',
     professorPhone: '',
+    member: member,
   });
 
   const handleChange = (e) => {
@@ -28,7 +35,7 @@ const CreateClub = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const curmemberPk = 1; // 임의로 둠
+    // const curmemberPk = 1; // 임의로 둠
 
     try {
       const clubData = {
@@ -41,13 +48,14 @@ const CreateClub = () => {
         professorName: formData.professorName,
         professorMajor: formData.professorMajor,
         professorPhone: formData.professorPhone,
+        member: member
       };
 
       console.log("clubData", clubData)
 
       const response = await instance.post(
-        `club?memberPk=${curmemberPk}`,
-        // "club?memberPk=1",
+        // `club?memberPk=${curmemberPk}`,
+        "club",
         clubData,
         {
           withCredentials: true,
