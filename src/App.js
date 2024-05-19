@@ -25,7 +25,7 @@ function App() {
         <Route path="/MemberRecruitmentDetail/:id" element={<MemberRecruitmentDetail />} />
         <Route path="/CreateClub" element={<CreateClub/>} />
         <Route path="/Notice" element={<Notice />} />
-          <Route path="/CreateNotice" element={<CreateNotice />} />
+        <Route path="/CreateNotice" element={<CreateNotice />} />
       </Routes>
     </Router>
     </RecoilRoot>
