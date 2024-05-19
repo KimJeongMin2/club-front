@@ -12,6 +12,7 @@ import CreateClub from "./club/master/CreateClub"; // 경로에 맞게 수정
 import NoticeList from "./club/common/noticeList";
 import Notice from "./club/common/Notice";
 import { RecoilRoot } from "recoil";
+import NoticeDetail from "./club/master/NoticeDetail";
 
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
         <Route path="/MemberRecruitmentDetail/:id" element={<MemberRecruitmentDetail />} />
         <Route path="/CreateClub" element={<CreateClub/>} /> {/* 경로 확인 */}
         <Route path="/Notice" element={<Notice />} />
-          <Route path="/CreateNotice" element={<CreateNotice />} />
+        <Route path="/CreateNotice" element={<CreateNotice />} />
+        <Route path="/UpdateNotice/:id" element={<CreateNotice />} />
+        <Route path="/NoticeDetail/:id" element={<NoticeDetail />} />
       </Routes>
     </Router>
     </RecoilRoot>
