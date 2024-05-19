@@ -34,7 +34,11 @@ import instance from "../../api/instance";
   
   
     const handleApply = () => {
-      navigate(`/MemberRecruitmentDetail/${noticeData.postId}`, { state: { noticeData } });
+      navigate(`/MemberRecruitmentDetail/${noticeData?.postId}`, { state: { noticeData } });
+    };
+
+    const handleNoticeDetail = () => {
+      navigate(`/NoticeDetail/${noticeData?.postId}`, {state:{noticeData}});
     };
 
     const sendDeleteNotice = (noticeId) => {
@@ -65,7 +69,7 @@ import instance from "../../api/instance";
             flexDirection: "row",
             cursor: "pointer",
           }}
-          
+          onClick={handleNoticeDetail}
         >
           <Grid item xs={5}>
           {imageData && (
@@ -115,11 +119,17 @@ import instance from "../../api/instance";
                 </Typography>
               </Stack>
               <Button
-               onClick={handleApply}
+               onClick={(e) => {
+                e.stopPropagation();
+                handleApply();
+              }}
               >
                 신청
               </Button>
-              <DeleteIcon onClick={()=>sendDeleteNotice(noticeData?.postId)}/>
+              <DeleteIcon   onClick={(e) => {
+                  e.stopPropagation(); 
+                  sendDeleteNotice(noticeData?.postId);
+                }}/>
             </CardContent>
           </Grid>
         </Card>

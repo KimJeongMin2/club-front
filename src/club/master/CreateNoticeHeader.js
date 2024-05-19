@@ -17,8 +17,8 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import instance from "../../api/instance";
-
-export default function CreateNoticeHeader() {
+import { useNavigate } from "react-router";
+export default function CreateNoticeHeader({isEdit = false}) {
   const [contents, setContents] = useRecoilState(contentsState);
   const [alignment, setAlignment] = useState("ENTIRE");
   const [title, setTitle] = useRecoilState(titleState);
@@ -27,11 +27,19 @@ export default function CreateNoticeHeader() {
   console.log("photoFile:", photoFile);
   console.log("photoFile.file:", photoFile?.file?.name);
   console.log("alignment", alignment)
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const notice = location.state?.notice;
+
+  console.log("noticeIDDDD", notice?.noticeData?.postId);
+
+  const noticeId = notice?.noticeData?.postId;
   const [member, setMember] = useState({
     studentId: 1,
     name: "1",
   });
-  
+
   const createNotice = async () => {
     try {
       const postData = {
@@ -41,41 +49,76 @@ export default function CreateNoticeHeader() {
         noticeVisibilityType: alignment,
         member: member,
       };
-      console.log("postData", postData)
+  
       const formData = new FormData();
-      formData.append(
-        "dto",
-        new Blob([JSON.stringify(postData)], { type: "application/json" })
-      );
+      formData.append("dto", new Blob([JSON.stringify(postData)], { type: "application/json" }));
       formData.append("photo", photoFile?.file);
-      
-
-      for (let key of formData.keys()) {
-        console.log(key, ":", formData.get(key));
-      }
-
-      const response = await instance.post(
-        "/posts",
-        formData,
-        {
+  
+      const url = isEdit ? `/posts/${noticeId}` : "/posts";
+      let response;
+      if (isEdit) {
+        response = await instance.put(url, formData, {
           withCredentials: true,
-        }
-      );
-
-      console.log("Notice created:", response.data);
+        });
+      } else {
+        response = await instance.post(url, formData, {
+          withCredentials: true,
+        });
+      }
+  
+      console.log("Notice created/updated:", response.data);
     } catch (error) {
-      console.error("Error creating notice:", error);
+      console.error("Error creating/updating notice:", error);
     }
   };
+  
+  
+  // const createNotice = async () => {
+  //   try {
+  //     const postData = {
+  //       title: title,
+  //       content: contents,
+  //       category: "NOTICE",
+  //       noticeVisibilityType: alignment,
+  //       member: member,
+  //     };
+  //     console.log("postData", postData)
+  //     const formData = new FormData();
+  //     formData.append(
+  //       "dto",
+  //       new Blob([JSON.stringify(postData)], { type: "application/json" })
+  //     );
+  //     formData.append("photo", photoFile?.file);
+      
+
+  //     for (let key of formData.keys()) {
+  //       console.log(key, ":", formData.get(key));
+  //     }
+  //     const url = isEdit ? `/posts/${notice?.postId}` : "/posts";
+  //     const response = await instance.post(
+  //       "/posts",
+  //       formData,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+
+  //     console.log("Notice created:", response.data);
+  //   } catch (error) {
+  //     console.error("Error creating notice:", error);
+  //   }
+  // };
+
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
+  
   return (
     <Box>
       <Grid container direction={"row"} spacing={1}>
         <Grid item xs={5}>
           <Typography variant="h6" sx={{ mt: 2 }}>
-            공지사항 등록
+          {isEdit ? "공지사항 수정" : "공지사항 등록"}
           </Typography>
         </Grid>
         <Grid

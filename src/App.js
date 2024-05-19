@@ -12,6 +12,7 @@ import CreateClub from "./club/master/CreateClub";
 import NoticeList from "./club/common/noticeList";
 import Notice from "./club/common/Notice";
 import { RecoilRoot } from "recoil";
+import NoticeDetail from "./club/master/NoticeDetail";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
         <Route path="/CreateClub" element={<CreateClub/>} />
         <Route path="/Notice" element={<Notice />} />
         <Route path="/CreateNotice" element={<CreateNotice />} />
+        <Route path="/UpdateNotice/:id" element={<CreateNotice />} />
+        <Route path="/NoticeDetail/:id" element={<NoticeDetail />} />
       </Routes>
     </Router>
     </RecoilRoot>

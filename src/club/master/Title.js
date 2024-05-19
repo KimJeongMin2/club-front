@@ -1,9 +1,24 @@
 import { Box, TextField } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { titleState } from "../../recoil/state/noticeState";
+import { useEffect } from "react";
 
-export default function Title({data}) {
+export default function Title({notice}) {
   const [title, setTitle] = useRecoilState(titleState);
+
+  useEffect(() => {
+    setTitle(""); 
+  }, [setTitle]);
+  
+
+  console.log("abce", notice);
+
+  useEffect(() => {
+    if (notice) {
+      // console.log("여기?")
+      setTitle(notice?.noticeData.title);
+    }
+  }, [notice]);
 
 
   const handleChange = (event) => {

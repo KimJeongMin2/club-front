@@ -53,9 +53,12 @@ function MyCustomUploadAdapterPlugin(editor, setPhotoFile) {
   };
 }
 
-export default function Editor({ contents }) {
+export default function Editor({ notice }) {
   const [content, setContent] = useRecoilState(contentsState);
   const [photoFile, setPhotoFile] = useRecoilState(photoFileState);
+
+
+  const editorContents = notice?.noticeData?.content;
 
   const onEditorReady = (editor) => {
     console.log('Editor is ready to use!', editor);
@@ -76,6 +79,7 @@ export default function Editor({ contents }) {
   return (
     <CKEditor
       editor={ClassicEditor}
+      data={editorContents}
       config={{
         placeholder: '내용을 입력해주세요.',
         extraPlugins: [MyCustomUploadAdapterPlugin],
