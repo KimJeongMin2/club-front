@@ -17,3 +17,8 @@ export const noticeListState = atom({
     key:"noticeListState",
     default:[]
 })  
+
+export const recruitmentListState = atom({
+    key:"recruitmentListState",
+    default:[]
+})  
