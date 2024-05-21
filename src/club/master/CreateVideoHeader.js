@@ -60,9 +60,9 @@ import {
       }
     };
   
-    const handleChange = (event, newAlignment) => {
-      setAlignment(newAlignment);
-    };
+    // const handleChange = (event, newAlignment) => {
+    //   setAlignment(newAlignment);
+    // };
     
     return (
       <Box>

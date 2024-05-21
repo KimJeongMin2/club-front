@@ -24,13 +24,14 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<MainPage/>}></Route>
-        <Route path="/clubNotice" element={<CreateNotice/>}></Route>
+        {/* <Route path="/clubNotice" element={<CreateNotice/>}></Route> */}
         <Route path="/MemberRecruitment" element={<MemberRecruitment/>}></Route>
         <Route path="/MemberRecruitmentDetail/:id" element={<MemberRecruitmentDetail />} />
         <Route path="/CreateClub" element={<CreateClub/>} />
         <Route path="/Notice" element={<Notice />} />
         <Route path="/CreateNotice" element={<CreateNotice />} />
         <Route path="/UpdateNotice/:id" element={<CreateNotice />} />
+        <Route path="/CreateMemberRecruitment" element={<CreateNotice />} />
         <Route path="/NoticeDetail/:id" element={<NoticeDetail />} />
         <Route path="/CreateVideo" element={<CreateVideo />} />
         <Route path="/Video" element={<Video />} />
