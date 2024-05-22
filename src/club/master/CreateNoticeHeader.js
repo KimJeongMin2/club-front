@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
   contentsState,
+  fileState,
   photoFileState,
   titleState,
 } from "../../recoil/state/noticeState";
@@ -28,15 +29,17 @@ export default function CreateNoticeHeader({ isEdit = false }) {
   console.log("photoFile:", photoFile);
   console.log("photoFile.file:", photoFile?.file?.name);
   console.log("alignment", alignment);
+  const [file, setFile] = useRecoilState(fileState);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const notice = location.state?.notice;
-
+  const notice = location.state;
   const matchCreateNotice = useMatch("/CreateNotice");
   const matchCreateMemberRecruitment = useMatch("/CreateMemberRecruitment");
   const updateNoticeMatch = useMatch("/UpdateNotice/:id");
-  console.log("noticeIDDDD", notice?.noticeData?.postId);
+  console.log("updateNoticeMatch", updateNoticeMatch);
+  const updateRecruitmentMatch = useMatch("/UpdateMemberRecruitment/:id");
+  console.log("noticeIDDDD", notice?.recruitment?.recruitment?.postId);
 
   console.log("matchCreateNotice", matchCreateNotice);
   let headerText;
@@ -68,17 +71,23 @@ export default function CreateNoticeHeader({ isEdit = false }) {
         new Blob([JSON.stringify(postData)], { type: "application/json" })
       );
       formData.append("photo", photoFile?.file);
+      if (matchCreateMemberRecruitment || updateRecruitmentMatch) {
+        formData.append("file", file || null);
+      }
 
       let url;
-      if (matchCreateNotice !== undefined) {
-        if (isEdit && notice?.noticeData?.postId) {
-          url = `/posts/${notice.noticeData.postId}`;
+      if (matchCreateNotice !== null || updateNoticeMatch !== null) {
+        if (isEdit && notice?.notice?.noticeData?.postId) {
+          url = `/posts/${notice.notice.noticeData.postId}`;
         } else {
           url = "/posts";
         }
-      } else if (matchCreateMemberRecruitment !== undefined) {
-        if (isEdit && notice?.noticeData?.postId) {
-          url = `/recruitment/posts/${notice.noticeData.postId}`;
+      } else if (
+        matchCreateMemberRecruitment !== undefined ||
+        updateRecruitmentMatch !== null
+      ) {
+        if (isEdit && notice?.recruitment?.recruitment?.postId) {
+          url = `/posts/recruitment/${notice.recruitment.recruitment.postId}`;
         } else {
           url = "/posts/new-recruitment-posts";
         }
