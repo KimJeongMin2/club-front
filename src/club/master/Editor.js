@@ -57,9 +57,11 @@ export default function Editor({ notice }) {
   const [content, setContent] = useRecoilState(contentsState);
   const [photoFile, setPhotoFile] = useRecoilState(photoFileState);
 
+  console.log("noticenotice", notice);
 
-  const editorContents = notice?.noticeData?.content;
+  const editorContents = notice?.noticeData? (notice?.noticeData?.content) : (notice?.recruitment?.content);
 
+  console.log("ghkrdls", editorContents);
   const onEditorReady = (editor) => {
     console.log('Editor is ready to use!', editor);
 

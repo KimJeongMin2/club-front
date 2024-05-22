@@ -32,6 +32,7 @@ function App() {
         <Route path="/CreateNotice" element={<CreateNotice />} />
         <Route path="/UpdateNotice/:id" element={<CreateNotice />} />
         <Route path="/CreateMemberRecruitment" element={<CreateNotice />} />
+        <Route path="/UpdateMemberRecruitment/:id" element={<CreateNotice />} />
         <Route path="/NoticeDetail/:id" element={<NoticeDetail />} />
         <Route path="/CreateVideo" element={<CreateVideo />} />
         <Route path="/Video" element={<Video />} />

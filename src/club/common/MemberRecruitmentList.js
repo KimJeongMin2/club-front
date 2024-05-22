@@ -23,8 +23,8 @@ export default function MemberRecruitmentList({ recruitment }) {
     navigate(`/MemberRecruitmentDetail/${recruitment.id}`, { state: { recruitment } });
   };
 
-  const handleNoticeDetail = () => {
-    navigate(`/NoticeDetail/${recruitment?.postId}`, {state:{recruitment}});
+  const handleRecruitmentDetail = () => {
+    navigate(`/MemberRecruitmentDetail/${recruitment?.postId}`, {state:{recruitment}});
   };
 
 
@@ -70,7 +70,7 @@ export default function MemberRecruitmentList({ recruitment }) {
             flexDirection: "row",
             cursor: "pointer",
           }}
-          onClick={handleNoticeDetail}
+          onClick={handleRecruitmentDetail}
         >
           <Grid item xs={5}>
           {imageData && (

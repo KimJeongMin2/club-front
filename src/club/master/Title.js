@@ -15,11 +15,13 @@ export default function Title({notice}) {
 
   useEffect(() => {
     if (notice) {
-      // console.log("여기?")
-      setTitle(notice?.noticeData.title);
+      if (notice.noticeData) {
+        setTitle(notice.noticeData.title);
+      } else if (notice.recruitment) {
+        setTitle(notice.recruitment.title);
+      }
     }
   }, [notice]);
-
 
   const handleChange = (event) => {
     setTitle(event.target.value);
