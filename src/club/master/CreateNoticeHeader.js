@@ -15,15 +15,16 @@ import {
   photoFileState,
   titleState,
 } from "../../recoil/state/noticeState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import instance from "../../api/instance";
 import { useNavigate, useMatch } from "react-router";
+import { clubIdState } from "../../recoil/state/clubState";
 export default function CreateNoticeHeader({ isEdit = false }) {
   const [contents, setContents] = useRecoilState(contentsState);
   const [alignment, setAlignment] = useState("ENTIRE");
   const [title, setTitle] = useRecoilState(titleState);
-
+  const [selectedClubId, setClubIdState] = useRecoilState(clubIdState);
   const [photoFile, setPhotoFile] = useRecoilState(photoFileState);
   console.log("isEdit", isEdit);
   console.log("photoFile:", photoFile);
@@ -41,29 +42,63 @@ export default function CreateNoticeHeader({ isEdit = false }) {
   const updateRecruitmentMatch = useMatch("/UpdateMemberRecruitment/:id");
   console.log("noticeIDDDD", notice?.recruitment?.recruitment?.postId);
 
+  console.log("matchCreateMemberRecruitment", matchCreateMemberRecruitment);
   console.log("matchCreateNotice", matchCreateNotice);
   let headerText;
   if (matchCreateNotice !== null) {
     headerText = isEdit ? "수정" : "공지사항 등록";
   } else if (matchCreateMemberRecruitment !== undefined) {
     headerText = isEdit ? "수정" : "부원모집 등록";
-  }
-
+  } 
+  console.log("clubIddd", selectedClubId)
   const noticeId = notice?.noticeData?.postId;
   const [member, setMember] = useState({
     studentId: 1,
     name: "1",
   });
 
+  const clubId = selectedClubId[0];
+console.log("clubId임", clubId);
+const [club, setClub] = useState({ clubId: selectedClubId[0] });
+
+useEffect(() => {
+  setClub({ clubId: selectedClubId[0] });
+}, [selectedClubId[0]]);
+
+
+console.log("clublcubclub", club);
+
   const createNotice = async () => {
     try {
-      const postData = {
+      let postData;
+    if (matchCreateNotice !== null || updateNoticeMatch !== null) {
+      console.log("여기?")
+      postData = {
         title: title,
         content: contents,
         category: getCategory(),
         noticeVisibilityType: alignment,
         member: member,
       };
+    } else if (
+      matchCreateMemberRecruitment !== undefined ||
+      updateRecruitmentMatch !== null
+    ) {
+      console.log("아님 여기?")
+      postData = {
+        title: title,
+        content: contents,
+        category: getCategory(),
+        noticeVisibilityType: alignment,
+        member: member,
+        club: club,
+      };
+    }
+
+
+      console.log("postData", postData)
+
+  
 
       const formData = new FormData();
       formData.append(
@@ -73,6 +108,9 @@ export default function CreateNoticeHeader({ isEdit = false }) {
       formData.append("photo", photoFile?.file);
       if (matchCreateMemberRecruitment || updateRecruitmentMatch) {
         formData.append("file", file || null);
+      }
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
       }
 
       let url;
@@ -106,6 +144,7 @@ export default function CreateNoticeHeader({ isEdit = false }) {
       }
 
       console.log("Notice created/updated:", response.data);
+      
     } catch (error) {
       console.error("Error creating/updating notice:", error);
     }
@@ -122,37 +161,6 @@ export default function CreateNoticeHeader({ isEdit = false }) {
   };
 
   console.log("headerText", headerText);
-  // const createNotice = async () => {
-  //   try {
-  //     const postData = {
-  //       title: title,
-  //       content: contents,
-  //       category: "NOTICE",
-  //       noticeVisibilityType: alignment,
-  //       member: member,
-  //     };
-
-  //     const formData = new FormData();
-  //     formData.append("dto", new Blob([JSON.stringify(postData)], { type: "application/json" }));
-  //     formData.append("photo", photoFile?.file);
-
-  //     const url = isEdit ? `/posts/${noticeId}` : "/posts";
-  //     let response;
-  //     if (isEdit) {
-  //       response = await instance.put(url, formData, {
-  //         withCredentials: true,
-  //       });
-  //     } else {
-  //       response = await instance.post(url, formData, {
-  //         withCredentials: true,
-  //       });
-  //     }
-
-  //     console.log("Notice created/updated:", response.data);
-  //   } catch (error) {
-  //     console.error("Error creating/updating notice:", error);
-  //   }
-  // };
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);

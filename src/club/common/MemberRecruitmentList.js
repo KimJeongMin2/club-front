@@ -20,7 +20,7 @@ export default function MemberRecruitmentList({ recruitment }) {
   const [imageData, setImageData] = useState(null);
 
   const handleApply = () => {
-    navigate(`/MemberRecruitmentDetail/${recruitment.id}`, { state: { recruitment } });
+    navigate(`/ClubJoin/${recruitment?.postId}`, { state: { recruitment } });
   };
 
   const handleRecruitmentDetail = () => {
