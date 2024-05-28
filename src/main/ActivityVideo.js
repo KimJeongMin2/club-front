@@ -1,16 +1,20 @@
 import { Box, Grid, Typography, Card, CardMedia, CardContent } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom"; // React Router의 Link 컴포넌트를 import
+import { Link } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import instance from "../api/instance";
 import React, { useState, useEffect } from 'react';
-import YouTube from 'react-youtube';
+import ReactPlayer from 'react-player/youtube';
 
 
 export default function ActivityVideo() {
+
   const navigate = useNavigate();
+
   const [activityVideos, setActivityVideos] = useState([]);
 
   useEffect(() => {
+    
     const fetchVideos = async () => {
       try {
         const response = await instance.get(
@@ -32,6 +36,11 @@ export default function ActivityVideo() {
 
     fetchVideos();
   }, []);
+
+  const handleVideoDetail = (videoData) => {
+    console.log("videoId???" , videoData.postId)
+    navigate(`/VideoDetail/${videoData.postId}`, { state: { videoData } });
+  };
 
   return (
     <Grid container direction="column" spacing={1} sx={{ mt: "50px" }}>
@@ -55,13 +64,15 @@ export default function ActivityVideo() {
           {activityVideos.map((video) => (
             <Grid item xs={12} sm={6} md={3} key={video.id}>
               <Card>
-                <CardMedia
-                  component="iframe"
-                  height="140"
-                  src={`https://www.youtube.com/embed/${video.content}`}
-                  title={video.title}
+              <ReactPlayer
+                  className="player"
+                  url={`https://www.youtube.com/watch?v=${video.content}`}
+                  controls
+                  playing={false}
+                  width="100%"
+                  height="140px"
                 />
-                <CardContent>
+                <CardContent onClick={() => handleVideoDetail(video)}>
                   <Typography gutterBottom variant="h6" component="div">
                     {video.title}
                   </Typography>

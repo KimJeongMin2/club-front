@@ -14,19 +14,39 @@ import {
   import { useNavigate } from "react-router-dom";
   import DeleteIcon from '@mui/icons-material/Delete';
   import instance from "../../api/instance";
+  import ReactPlayer from "react-player";
 
   export default function VideoList({ videoData }) {
-    console.log("videoData", videoData.postId);
-    const navigate = useNavigate();
 
-    const handleVideoDetail = () => {
-      navigate(`/VideoDetail/${videoData?.postId}`, {state:{ videoData}});
+    console.log("videoData postId:", videoData.postId);
+    const navigate = useNavigate();
+    // const [videoLoaded, setVideoLoaded] = useState(false); // 비디오 로드 여부 상태
+
+
+    // useEffect(() => {
+    //   // 비디오 로드 후 상태 업데이트
+    //   setVideoLoaded(true);
+    // }, []);
+
+      // 비디오 URL 상태 설정
+  const [videoUrl, setVideoUrl] = useState("");
+  
+
+  useEffect(() => {
+    if (videoData?.content) {
+      setVideoUrl(`https://www.youtube.com/watch?v=${videoData.content}`);
+    }
+  }, [videoData]);
+
+    const handleVideoDetail = (videoData) => {
+      console.log("videoId???" , videoData.postId)
+      navigate(`/VideoDetail/${videoData.postId}`, { state: { videoData } });
     };
 
-    const sendDeleteVideo = (videoId) => {
+    const sendDeleteVideo = (postId) => {
       if (window.confirm("삭제하시겠습니까?")) {
           instance
-              .delete(`/posts/video/${videoId}`, {
+              .delete(`/posts/${postId}`, {
                   withCredentials: true,
               })
               .then((response) => {
@@ -51,7 +71,7 @@ import {
             flexDirection: "row",
             cursor: "pointer",
           }}
-          onClick={handleVideoDetail}
+          onClick={() => handleVideoDetail(videoData)}
         >
           <Grid item xs={12}>
             <CardContent>
@@ -68,13 +88,14 @@ import {
                 >
                   {videoData?.title}
                 </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ textAlign: "left" }}
-                  fontWeight={"bold"}
-                >
-                  {videoData?.content}
-                </Typography>
+                <ReactPlayer
+                  className="player"
+                  url={videoUrl}
+                  controls
+                  playing={false}
+                  width="100%"
+                  height="500px"
+                />
                 <Typography
                   variant="h6"
                   sx={{ textAlign: "left" }}
