@@ -15,6 +15,8 @@ import { RecoilRoot } from "recoil";
 import NoticeDetail from "./club/master/NoticeDetail";
 import Video from "./club/common/Video";
 import CreateVideo from "./club/master/CreateVideo"; 
+import VideoDetail from "./club/master/VideoDetail";
+
 
 
 
@@ -34,6 +36,8 @@ function App() {
         <Route path="/NoticeDetail/:id" element={<NoticeDetail />} />
         <Route path="/CreateVideo" element={<CreateVideo />} />
         <Route path="/Video" element={<Video />} />
+        <Route path="/VideoDetail/:id" element={<VideoDetail />} />
+        <Route path="/UpdateVideo/:id" element={<CreateVideo />} />
       </Routes>
     </Router>
     </RecoilRoot>

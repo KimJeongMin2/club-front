@@ -3,8 +3,13 @@ import { Box, Grid, TextField, Button, MenuItem, Typography } from "@mui/materia
 import ButtonAppBar from "../../common/MainAppBar";
 import axios from "axios";
 import instance from "../../api/instance";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CreateClub = () => {
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
 
   const [member, setMember] = useState({
     studentId: 1,
@@ -69,6 +74,7 @@ const CreateClub = () => {
       );
 
       console.log('Club created:', response.data);
+      navigate("/memberRecruitment")
     } catch (error) {
       console.error('Error creating club:', error);
     }

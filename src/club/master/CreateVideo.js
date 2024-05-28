@@ -2,10 +2,23 @@ import React, { useState } from 'react';
 import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
 import instance from "../../api/instance";
-import { useLocation, useMatch} from "react-router-dom";
-import CreateVideoHeader from "./CreateVideoHeader";
+import { useLocation, useNavigate, useMatch} from "react-router-dom";
 
 export default function CreateVideo(){
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    
+    const { video } = location.state || {};
+    const matchUpdate = useMatch("/UpdateVideo/:id");
+    console.log("EditVideo", video);
+    console.log("useMatch", matchUpdate);
+
+    const videoData = matchUpdate && video ? video : null;
+
+    console.log("video: ", videoData);
+    
     const [member, setMember] = useState({
         studentId: 1,
         name: "서영은",
@@ -52,6 +65,8 @@ export default function CreateVideo(){
             );
 
             console.log('Video post created:', response.data);
+            navigate("/video"); 
+
         } catch (error) {
             console.error('Error creating video post:', error);
         }

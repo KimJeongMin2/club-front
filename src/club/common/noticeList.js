@@ -41,10 +41,10 @@ import instance from "../../api/instance";
       navigate(`/NoticeDetail/${noticeData?.postId}`, {state:{noticeData}});
     };
 
-    const sendDeleteNotice = (noticeId) => {
+    const sendDeleteNotice = (postId) => {
       if (window.confirm("삭제하시겠습니까?")) {
           instance
-              .delete(`/posts/${noticeId}`, {
+              .delete(`/posts/${postId}`, {
                   withCredentials: true,
               })
               .then((response) => {
