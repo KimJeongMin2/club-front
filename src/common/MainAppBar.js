@@ -19,6 +19,7 @@ export default function ButtonAppBar() {
           </Typography>
           <Button color="inherit">로그인</Button>
           <Button color="inherit">회원가입</Button>
+          <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button>
         </Toolbar>
       </AppBar>
     </Box>
