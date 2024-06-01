@@ -67,7 +67,18 @@ useEffect(() => {
 
 
 console.log("clublcubclub", club);
+//console.log("fileFile", file.name);
+const [fileName, setFileName] = useState(null);
 
+useEffect(() => {
+  if (file) {
+    setFileName(file.name);
+  } else {
+    setFileName(null);
+  }
+}, [file]);
+
+console.log("fileName", fileName);
   const createNotice = async () => {
     try {
       let postData;
@@ -79,6 +90,7 @@ console.log("clublcubclub", club);
         category: getCategory(),
         noticeVisibilityType: alignment,
         member: member,
+        
       };
     } else if (
       matchCreateMemberRecruitment !== undefined ||
@@ -92,6 +104,7 @@ console.log("clublcubclub", club);
         noticeVisibilityType: alignment,
         member: member,
         club: club,
+        storedFileName:fileName
       };
     }
 
@@ -142,9 +155,10 @@ console.log("clublcubclub", club);
           withCredentials: true,
         });
       }
-
-      console.log("Notice created/updated:", response.data);
       
+      console.log("Notice created/updated:", response.data);
+      alert("등록이 완료 되었습니다.");
+      navigate("/MemberRecruitment")
     } catch (error) {
       console.error("Error creating/updating notice:", error);
     }

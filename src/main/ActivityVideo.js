@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import instance from "../api/instance";
 import React, { useState, useEffect } from 'react';
-import ReactPlayer from 'react-player/youtube';
-
+// import ReactPlayer from 'react-player/youtube';
+import ReactPlayer from 'react-player';
 
 export default function ActivityVideo() {
 

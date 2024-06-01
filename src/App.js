@@ -17,6 +17,7 @@ import Video from "./club/common/Video";
 import CreateVideo from "./club/master/CreateVideo"; 
 import VideoDetail from "./club/master/VideoDetail";
 import ClubJoin from "./club/member/ClubJoin";
+import ClubJoinList from "./club/master/ClubJoinList";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/VideoDetail/:id" element={<VideoDetail />} />
         <Route path="/UpdateVideo/:id" element={<CreateVideo />} />
         <Route path="/ClubJoin/:id" element={<ClubJoin />} />
+        <Route path="/ClubJoinList" element={<ClubJoinList />} />
       </Routes>
     </Router>
     </RecoilRoot>
