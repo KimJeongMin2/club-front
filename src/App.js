@@ -17,6 +17,10 @@ import Video from "./club/common/Video";
 import CreateVideo from "./club/master/CreateVideo"; 
 import VideoDetail from "./club/master/VideoDetail";
 import ClubJoin from "./club/member/ClubJoin";
+import MyClub from "./club/master/MyClub";
+import MyClubList from "./club/master/MyClubList";
+import ClubBaseInfoDetail from "./club/master/ClubBaseInfoDetail";
+
 
 
 function App() {
@@ -40,6 +44,10 @@ function App() {
         <Route path="/VideoDetail/:id" element={<VideoDetail />} />
         <Route path="/UpdateVideo/:id" element={<CreateVideo />} />
         <Route path="/ClubJoin/:id" element={<ClubJoin />} />
+        <Route path="/MyClub" element={<MyClub />} />
+        <Route path="/MyClubList" element={<MyClubList />} />
+        <Route path="/ClubBaseInfoDetail/:id" element={<ClubBaseInfoDetail />} />
+
       </Routes>
     </Router>
     </RecoilRoot>
