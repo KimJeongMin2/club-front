@@ -15,6 +15,7 @@ import { useRecoilState } from "recoil";
 import { fileState, titleState } from "../../recoil/state/noticeState";
   export default function ClubJoinHeader({clubNumber}) {
     console.log(clubNumber.club.clubId)
+    const navigate = useNavigate();
     const [title, setTitle] = useRecoilState(titleState);
     const [file, setFile] = useRecoilState(fileState);
     const [member, setMember] = useState({
@@ -49,7 +50,8 @@ import { fileState, titleState } from "../../recoil/state/noticeState";
           const response = await axios.post('/api/join-club', formData, {
             withCredentials: true,
           });
-      
+          alert("동아리 가입 신청이 완료 되었습니다.");
+          navigate("/")
           console.log("Club join created:", response.data);
         } catch (error) {
           console.error("Error creating/ club join:", error);

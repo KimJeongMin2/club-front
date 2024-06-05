@@ -54,7 +54,9 @@ export default function MemberRecruitmentDetail() {
   const downloadFile = () => {
     if (file) {
       console.log("동작?", file);
-      saveAs(file, "clubJoin.hwp");
+      // saveAs(file, "clubJoin.hwp");
+      const fileName = recruitment?.recruitment?.storedFileName || "clubJoin.hwp";
+      saveAs(file, fileName);
     }
   };
 

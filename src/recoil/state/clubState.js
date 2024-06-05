@@ -31,3 +31,11 @@ export const fileIdState = atom({
     key:"fileIdState",
     default:null
 })
+export const clubJoinListState = atom({
+    key:"clubJoinListState",
+    default:[]
+})
+export const clubJoinIdState = atom({
+    key:"clubJoinIdState",
+    default:[]
+})
