@@ -16,10 +16,6 @@ export default function MemberRecruitment() {
                 
     const navigate = useNavigate();
 
-    const handleFabClick = () => {
-      navigate('/CreateClub'); 
-    };
-
     const [recruitment, setRecruitment] = useRecoilState(recruitmentListState);
     
     useEffect(() => {
@@ -59,6 +55,17 @@ export default function MemberRecruitment() {
               </Button>
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+            <Grid container direction={"row"} justifyContent={"flex-end"}>
+              <Button
+                variant="outlined"
+                endIcon={<ContentPasteGoIcon />}
+                onClick={() => navigate("/CreateClub")}
+              >
+                동아리 등록
+              </Button>
+            </Grid>
+          </Grid>
           <Grid item xs={12} spacing={1}>
             <Grid
               container
@@ -76,18 +83,6 @@ export default function MemberRecruitment() {
           </Grid>
         </Grid>
       </Box>
-      <Fab
-          color="primary"
-          aria-label="add"
-          sx={{
-              position: 'fixed',
-              bottom: 16,
-              right: 16,
-          }}
-          onClick={handleFabClick}
-      >
-          <AddIcon />
-      </Fab>
     </Box>
   );
 }

@@ -54,8 +54,10 @@ export default function TabBar() {
         return 2;
       case "/picture":
         return 3;
-      default:
+      case "/MyClub":
         return 4;
+      default:
+        return 5;
     }
   }
 
@@ -73,6 +75,9 @@ export default function TabBar() {
         break;
       case 3:
         navigate("/picture");
+        break;
+      case 4:
+        navigate("/MyClub");
         break;
       default:
         break;
@@ -110,6 +115,10 @@ export default function TabBar() {
         />
         <Tab
           label="사진"
+          sx={{ color: "black", marginLeft: "1em", marginRight: "1em", fontSize: '16px' }}
+        />
+        <Tab
+          label="내 동아리 조회"
           sx={{ color: "black", marginLeft: "1em", marginRight: "1em", fontSize: '16px' }}
         />
       </Tabs>
