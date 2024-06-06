@@ -23,6 +23,7 @@ import ClubBaseInfoDetail from "./club/master/ClubBaseInfoDetail";
 import ClubJoinList from "./club/master/ClubJoinList";
 import MyPage from "./club/master/mypage/MyPage";
 import ClubApplicationList from "./club/manager/ClubApplicationList";
+import MyClubMember from "./club/master/MyClubMember";
 
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
         <Route path="/ClubJoinList" element={<ClubJoinList />} />
         <Route path="/MyPage" element={<MyPage />} />
         <Route path="/ClubApplicationList" element={<ClubApplicationList />} />
-
+        <Route path="/MyClubMember" element={<MyClubMember />} />
+        
       </Routes>
     </Router>
     </RecoilRoot>
