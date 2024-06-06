@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Checkbox,
   Pagination,
   Paper,
@@ -16,25 +17,37 @@ import ClubListTableHeader from "./ClubListTableHeader";
 import {
   clubJoinIdState,
   clubJoinListState,
+  memberRefuseReason,
 } from "../../recoil/state/clubState";
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import instance from "../../api/instance";
-
+import { saveAs } from "file-saver";
 export default function ClubJoinListTable(props) {
   const location = useLocation();
   const [selected, setSelected] = useRecoilState(clubJoinIdState);
   const [clubJoinList, setClubJoinList] = useRecoilState(clubJoinListState);
+  const [file, setFile] = useState(null);
+  const [rejectReason, setRejectReason] = useRecoilState(memberRefuseReason);
+  
   useEffect(() => {
-    instance
-      .get(`/join-club`)
-      .then((response) => {
-        setClubJoinList(response?.data);
-        console.log("response?.data", response?.data);
-      })
-      .catch((error) => console.error(error));
+    const userId = 1; 
+
+    instance.get(`/join-club`, {
+      headers: {
+        'userId': userId, 
+      },
+    })
+    .then((response) => {
+      setClubJoinList(response?.data);
+      console.log("response?.data", response?.data);
+    })
+    .catch((error) => console.error(error));
   }, []);
+  console.log("selectedselected", selected)
   const isSelected = (id) => selected.indexOf(id) !== -1;
+  console.log("isSelected", isSelected);
+  console.log("clubJoinList?.file", clubJoinList);
 
   const handleSingleApprove = () => {
     console.log("selected", selected);
@@ -79,7 +92,6 @@ export default function ClubJoinListTable(props) {
       alert("취소합니다.");
     }
   };
-  
 
   const handleApprove = () => {
     if (selected.length === 1) {
@@ -89,9 +101,68 @@ export default function ClubJoinListTable(props) {
     }
   };
 
+  const handleSingleReject = () => {
+    console.log("selected", selected);
+    if (window.confirm(`거절 하시겠습니까?`)) {
+      selected.forEach((id) => {
+        console.log(" rejectReason[id]",  rejectReason[id])
+        const reason = rejectReason[id] || 'No reason provided';
+        console.log("reason", reason)
+        instance
+          .put(`/join-club/${id}/reject`, { refusalReason: reason })
+          .then((response) => {
+            alert("거절처리 되었습니다.");
+            console.log(response.data);
+            window.location.reload();
+          })
+          .catch((error) => {
+            alert("거절처리에 실패하셨습니다.");
+            console.log(error);
+          });
+      });
+    } else {
+      alert("취소합니다.");
+    }
+  };
+  
+  const handleMultipleReject = () => {
+    console.log("selected", selected);
+  
+    if (window.confirm(`선택한 회원 ${selected.length}명을 모두 거절하시겠습니까?`)) {
+      const rejectionData = selected.map(id => ({
+        clubJoinId: id,
+        refusalReason: rejectReason[id] || 'No reason provided'
+      }));
+  
+      console.log("rejectionData", rejectionData)
+      instance
+        .put(`/join-club/reject`, rejectionData)
+        .then((response) => {
+          alert("거절처리 되었습니다.");
+          console.log(response.data);
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert("거절에 실패하셨습니다.");
+          console.log(error);
+        });
+    } else {
+      alert("취소합니다.");
+    }
+  };
+
+
+  const handleReject = () => {
+    if (selected.length === 1) {
+      handleSingleReject();
+    } else if (selected.length > 1) {
+      handleMultipleReject();
+    }
+  };
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = clubJoinList.map((n) => n.id);
+      const newSelected = clubJoinList.map((n) =>  n.clubJoinId);
       setSelected(newSelected);
       return;
     }
@@ -116,12 +187,52 @@ export default function ClubJoinListTable(props) {
     }
     setSelected(newSelected);
   };
+  useEffect(() => {
+    function decodeBase64(base64String) {
+      return Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
+    }
+
+    if (clubJoinList && clubJoinList.length > 0) {
+      const processedFiles = clubJoinList
+        .map((clubJoin) => {
+          const fileBase64 = clubJoin.file;
+          if (fileBase64) {
+            const fileBytes = decodeBase64(fileBase64);
+            const fileBlob = new Blob([fileBytes], {
+              type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            });
+            return {
+              blob: fileBlob,
+              fileName:
+                clubJoin.storedFileName ||
+                `동아리 가입 신청서_${clubJoin.clubJoinId}.hwp`,
+            };
+          }
+          return null;
+        })
+        .filter((file) => file !== null);
+      setFile(processedFiles);
+    }
+  }, [clubJoinList]);
+
+  const downloadFile = (clubJoinId) => {
+    const selectedFile = file.find((f) => f.fileName.includes(clubJoinId));
+
+    if (selectedFile) {
+      console.log("선택된 파일 다운로드:", selectedFile);
+      saveAs(selectedFile.blob, selectedFile.fileName);
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "98%", margin: 2 }}>
         <ClubJoinListTableToolBar
           numSelected={selected.length}
+          selected={selected}
           handleApprove={handleApprove}
+          handleReject={handleReject}
+          setRejectReason={setRejectReason}
           // fromDialog={props.fromDialog}
         />
         <TableContainer>
@@ -134,7 +245,7 @@ export default function ClubJoinListTable(props) {
             <TableBody>
               {clubJoinList.map((row, index) => {
                 const isItemSelected = isSelected(row?.clubJoinId);
-
+                console.log("isItemSelected여기", isItemSelected)
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
@@ -159,6 +270,18 @@ export default function ClubJoinListTable(props) {
                     <TableCell align="left">{row?.club?.clubId}</TableCell>
                     <TableCell align="left">{row?.title}</TableCell>
                     <TableCell align="left">{row?.member?.name}</TableCell>
+                    <TableCell align="left">
+                      <Button
+                        variant="contained"
+                        color="text"
+                        onClick={(event) => {
+                          event.stopPropagation(); 
+                          downloadFile(row?.clubJoinId); 
+                        }}
+                      >
+                        파일 다운로드
+                      </Button>
+                    </TableCell>
                     <TableCell align="left">{row?.createdAt}</TableCell>
                     <TableCell align="left">
                       {row?.status === "GO_OVER" ? "승인대기" : row?.status}
@@ -169,23 +292,6 @@ export default function ClubJoinListTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            mt: "5px",
-            pb: "5px",
-          }}
-        >
-          {/* <Pagination
-              count={totalPages}
-              variant="outlined"
-              shape="rounded"
-              page={page}
-              onChange={(event, value) => setPage(value)}
-            /> */}
-        </Box>
       </Paper>
     </Box>
   );

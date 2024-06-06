@@ -40,6 +40,14 @@ export const clubJoinIdState = atom({
     key:"clubJoinIdState",
     default:[]
 })
+export const memberRefuseReason = atom({
+    key:"memberRefuseReasonState",
+    default:[]
+})
+export const myClubListState = atom({
+    key:"myClubListState",
+    default:[]
+})
 export const clubApplicationListState = atom({
     key:"clubApplicationListState",
     default:[]

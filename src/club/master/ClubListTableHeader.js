@@ -22,10 +22,14 @@ const headCells = [
   },
   {
     id: "4",
-    label: "가입일",
+    label: "가입신청서",
   },
   {
     id: "5",
+    label: "가입일",
+  },
+  {
+    id: "6",
     label: "상태",
   },
 ];

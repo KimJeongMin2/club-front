@@ -21,6 +21,7 @@ import MyClub from "./club/master/MyClub";
 import MyClubList from "./club/master/MyClubList";
 import ClubBaseInfoDetail from "./club/master/ClubBaseInfoDetail";
 import ClubJoinList from "./club/master/ClubJoinList";
+import MyPage from "./club/master/mypage/MyPage";
 import ClubApplicationList from "./club/manager/ClubApplicationList";
 
 
@@ -49,6 +50,7 @@ function App() {
         <Route path="/MyClubList" element={<MyClubList />} />
         <Route path="/ClubBaseInfoDetail/:id" element={<ClubBaseInfoDetail />} />
         <Route path="/ClubJoinList" element={<ClubJoinList />} />
+        <Route path="/MyPage" element={<MyPage />} />
         <Route path="/ClubApplicationList" element={<ClubApplicationList />} />
 
       </Routes>
