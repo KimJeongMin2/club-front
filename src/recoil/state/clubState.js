@@ -18,6 +18,7 @@ export const titleState = atom({
     key:"titleState",
     default:'',
 })
+
 export const photoFileState = atom({
     key: 'photoFileState',
     default: null,
@@ -45,5 +46,13 @@ export const memberRefuseReason = atom({
 })
 export const myClubListState = atom({
     key:"myClubListState",
+    default:[]
+})
+export const clubApplicationListState = atom({
+    key:"clubApplicationListState",
+    default:[]
+})
+export const clubApplicationIdState = atom({
+    key:"clubApplicationIdState",
     default:[]
 })
