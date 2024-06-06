@@ -15,6 +15,7 @@ import instance from "../../api/instance";
 
 export default function MyClubList({ club }) {
 
+
   console.log("club 정보", club?.clubId);
   const navigate = useNavigate();
 

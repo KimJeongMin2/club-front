@@ -18,6 +18,7 @@ export const titleState = atom({
     key:"titleState",
     default:'',
 })
+
 export const photoFileState = atom({
     key: 'photoFileState',
     default: null,
