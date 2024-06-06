@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import GroupsIcon from '@mui/icons-material/Groups';
 import { ListSubheader } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 const drawerWidth = "220px";
 
 export default function MasterDrawerLeft() {
@@ -24,9 +24,9 @@ export default function MasterDrawerLeft() {
           path: "/ClubJoinList",
         },
         {
-            icon: <SmartDisplayIcon />,
-            text: "동아리 부원 상태",
-            path: "/LectureInqPage",
+            icon: <Diversity3Icon />,
+            text: "나의 동아리 부원",
+            path: "/myClubMember",
           },
       ],
     },

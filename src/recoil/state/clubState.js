@@ -43,3 +43,7 @@ export const memberRefuseReason = atom({
     key:"memberRefuseReasonState",
     default:[]
 })
+export const myClubListState = atom({
+    key:"myClubListState",
+    default:[]
+})

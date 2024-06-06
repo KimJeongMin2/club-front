@@ -9,7 +9,7 @@ import Title from './Title';
 import { useNavigate } from 'react-router';
 import { useLocation, useMatch } from 'react-router-dom';
 import FileUploader from './FlieUploader';
-import { clubIdState } from '../../recoil/state/clubState';
+import { clubIdState, myClubListState } from '../../recoil/state/clubState';
 import ClubDialog from './clubListDialog';
 import instance from '../../api/instance';
 
@@ -18,7 +18,8 @@ export default function CreateNotice() {
   const [open, setOpen] = useState(false);
   const [clubs, setClubs] = useState([]);
   const [clubId, setClubIdState] = useRecoilState(clubIdState);
-
+  const [myClub, setMyClubList] = useRecoilState(myClubListState);
+  
   const { notice } = location.state || {};
   const { recruitment } = location.state || {};
   const matchUpdate = useMatch('/UpdateNotice/:id');
@@ -27,9 +28,9 @@ export default function CreateNotice() {
   const noticeData = matchUpdate && notice ? notice : null;
   const recruitmentData = matchRecruitmentUpdate && recruitment ? recruitment : null;
   console.log("clubs", clubs)
-
-
-  console.log("clubId", clubId)
+  console.log("clubs", clubs)
+  const studentId = 1;
+  console.log("clubId 여기여기여기", clubId)
 
   useEffect(() => {
     instance
@@ -41,7 +42,16 @@ export default function CreateNotice() {
         .catch((error) => console.error(error));
 }, []);  
 
-
+    
+useEffect(() => {
+  instance
+      .get(`/club/my/${studentId}`)
+      .then((response) => {
+        setMyClubList(response?.data);
+        console.log("myClub", response?.data)
+      })
+      .catch((error) => console.error(error));
+}, [studentId]);  
   
   const handleOpen = () => {
     setOpen(true);
@@ -77,7 +87,7 @@ export default function CreateNotice() {
         {notice ? <Editor notice={noticeData} /> : <Editor notice={recruitmentData} />}
       </Grid>
       <Grid item xs={12}>
-        <ClubDialog open={open} handleClose={handleClose} clubs={clubs} handleClubSelect={handleClubSelect} />
+        <ClubDialog open={open} handleClose={handleClose} clubs={myClub} handleClubSelect={handleClubSelect} />
         <Button onClick={handleOpen}>{clubId.length > 0
             ? `동아리: ${clubId}`
             : '동아리'}</Button>

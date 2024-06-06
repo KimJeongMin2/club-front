@@ -7,6 +7,7 @@ export default function ClubDialog({ open, handleClose, clubs, handleClubSelect 
   const [selectedClubId, setClubIdState] = useRecoilState(clubIdState);
 
   console.log("clclclc", selectedClubId[0])
+  console.log("clubs", clubs)
   const handleCheckboxChange = (clubId) => {
     if (selectedClubId.includes(clubId)) {
       setClubIdState(selectedClubId.filter((id) => id !== clubId));

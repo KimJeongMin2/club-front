@@ -44,7 +44,9 @@ export default function ClubJoinListTable(props) {
     })
     .catch((error) => console.error(error));
   }, []);
+  console.log("selectedselected", selected)
   const isSelected = (id) => selected.indexOf(id) !== -1;
+  console.log("isSelected", isSelected);
   console.log("clubJoinList?.file", clubJoinList);
 
   const handleSingleApprove = () => {
@@ -148,31 +150,7 @@ export default function ClubJoinListTable(props) {
       alert("취소합니다.");
     }
   };
-  
-  
 
-  // const handleMultipleReject = () => {
-  //   console.log("selected", selected);
-  //   if (window.confirm(`선택한 회원 ${selected.length}명을 모두 거절하시겠습니까?`)) {
-  //     instance
-  //       .put(`/join-club/reject`, {
-  //         clubJoinIds: selected, 
-  //         refusalReason: rejectReason 
-  //       })
-  //       .then((response) => {
-  //         alert("거절처리 되었습니다.");
-  //         console.log(response.data);
-  //         window.location.reload();
-  //       })
-  //       .catch((error) => {
-  //         alert("거절에 실패하셨습니다.");
-  //         console.log(error);
-  //       });
-  //   } else {
-  //     alert("취소합니다.");
-  //   }
-  // };
-  
 
   const handleReject = () => {
     if (selected.length === 1) {
@@ -184,7 +162,7 @@ export default function ClubJoinListTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = clubJoinList.map((n) => n.id);
+      const newSelected = clubJoinList.map((n) =>  n.clubJoinId);
       setSelected(newSelected);
       return;
     }
@@ -267,7 +245,7 @@ export default function ClubJoinListTable(props) {
             <TableBody>
               {clubJoinList.map((row, index) => {
                 const isItemSelected = isSelected(row?.clubJoinId);
-
+                console.log("isItemSelected여기", isItemSelected)
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
