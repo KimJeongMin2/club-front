@@ -20,6 +20,7 @@ export default function ButtonAppBar() {
           <Button color="inherit">로그인</Button>
           <Button color="inherit">회원가입</Button>
           <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button>
+          {/* <Button color="inherit" onClick={() => navigate("/ClubCreateList")}>동아리 신청조회</Button> */}
         </Toolbar>
       </AppBar>
     </Box>
