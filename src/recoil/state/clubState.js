@@ -39,3 +39,11 @@ export const clubJoinIdState = atom({
     key:"clubJoinIdState",
     default:[]
 })
+export const clubApplicationListState = atom({
+    key:"clubApplicationListState",
+    default:[]
+})
+export const clubApplicationIdState = atom({
+    key:"clubApplicationIdState",
+    default:[]
+})
