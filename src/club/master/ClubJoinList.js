@@ -2,19 +2,20 @@ import { Box, Grid } from "@mui/material";
 import ClubJoinHeader from "./ClubJoinHeader";
 import ClubJoinListTable from "./ClubJoinListTable";
 import ButtonAppBar from "../../common/MainAppBar";
+import MyPageAppBar from "./mypage/MyPage";
 
 export default function ClubJoinList() {
   return (
     <Grid container direction={"column"} spacing={0.5}>
       <Grid item xs={1}>
-        <ButtonAppBar/>
+        <MyPageAppBar/>
       </Grid>
       <Grid item xs={12}>
         <Box
           sx={{
             position: "absolute",
             top: "64px",
-            left: "100px",
+            left: "220px",
             right: 0,
             bottom: 0,
             overflow: "auto",

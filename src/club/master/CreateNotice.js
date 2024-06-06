@@ -41,6 +41,7 @@ export default function CreateNotice() {
         .catch((error) => console.error(error));
 }, []);  
 
+
   
   const handleOpen = () => {
     setOpen(true);
