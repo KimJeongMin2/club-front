@@ -32,10 +32,7 @@ import instance from "../../api/instance";
       setImageData(imageUrl);
     }, [noticeData?.photo]);
   
-  
-    const handleApply = () => {
-      navigate(`/MemberRecruitmentDetail/${noticeData?.postId}`, { state: { noticeData } });
-    };
+  console.log("noticeData", noticeData)
 
     const handleNoticeDetail = () => {
       navigate(`/NoticeDetail/${noticeData?.postId}`, {state:{noticeData}});
@@ -118,14 +115,6 @@ import instance from "../../api/instance";
                  글쓴이 {noticeData?.member?.name}
                 </Typography>
               </Stack>
-              <Button
-               onClick={(e) => {
-                e.stopPropagation();
-                handleApply();
-              }}
-              >
-                신청
-              </Button>
               <DeleteIcon   onClick={(e) => {
                   e.stopPropagation(); 
                   sendDeleteNotice(noticeData?.postId);

@@ -30,3 +30,12 @@ export const fileIdState = atom({
     key:"fileIdState",
     default:null
 })
+
+export const latestNotice = atom({
+    key:"latestNotice",
+    default:[]
+})
+export const latestRecruit = atom({
+    key:"latestRecruit",
+    default:[]
+})

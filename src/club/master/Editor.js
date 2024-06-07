@@ -5,6 +5,7 @@ import { contentsState, photoFileState } from "../../recoil/state/noticeState";
 
 import axios from 'axios';
 import instance from "../../api/instance";
+import { useEffect } from "react";
 
 class MyUploadAdapter {
   constructor(loader, setPhotoFile) {
@@ -13,6 +14,7 @@ class MyUploadAdapter {
     this.setPhotoFile = setPhotoFile;
   }
 
+  
   upload() {
     return this.loader.file.then((file) => {
       this.file = file;
@@ -27,7 +29,7 @@ class MyUploadAdapter {
           },
         })
         .then((response) => {
-
+        console.log("response.data", response.data)
           this.setPhotoFile({
             file: this.file,
             url: response.data,
@@ -43,7 +45,7 @@ class MyUploadAdapter {
   }
 
   abort() {
-    // Implement the abort() method to cancel the upload process if needed.
+
   }
 }
 
@@ -59,13 +61,28 @@ export default function Editor({ notice }) {
 
   console.log("noticenotice", notice);
 
-  const editorContents = notice?.noticeData? (notice?.noticeData?.content) : (notice?.recruitment?.content);
+  // const editorContents = notice?.noticeData? (notice?.noticeData?.content) : (notice?.recruitment?.content);
+
+
+  let editorContents;
+
+  if (notice?.noticeData || notice?.recruitment) {
+    editorContents = notice?.noticeData ?
+    `<img src="data:image/jpeg;base64,${notice?.noticeData?.photo}" />${notice?.noticeData?.content}` :
+    `<img src="data:image/jpeg;base64,${notice?.recruitment?.photo}" />${notice?.recruitment?.content}`;
+  }
+
+
+  useEffect(() => {
+    if(notice?.recruitment){
+      console.log("여기 실행?")
+      setPhotoFile(notice?.recruitment?.photo)
+    }
+  }, [notice?.recruitment]);
 
   console.log("ghkrdls", editorContents);
   const onEditorReady = (editor) => {
     console.log('Editor is ready to use!', editor);
-
-    // Create the upload adapter instance and store it in a variable
     MyCustomUploadAdapterPlugin(editor, setPhotoFile);
     const uploadAdapter = new MyUploadAdapter(editor.plugins.get('FileRepository').createUploadAdapter, setPhotoFile);
     console.log("uploaderAdpter", uploadAdapter);
@@ -77,7 +94,7 @@ export default function Editor({ notice }) {
     setContent(data);
   };
 
-  console.log("file", photoFile);
+  console.log("포토", photoFile);
   return (
     <CKEditor
       editor={ClassicEditor}

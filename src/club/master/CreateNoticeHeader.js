@@ -90,7 +90,7 @@ console.log("fileName", fileName);
         category: getCategory(),
         noticeVisibilityType: alignment,
         member: member,
-        
+        club: club,
       };
     } else if (
       matchCreateMemberRecruitment !== undefined ||
@@ -155,10 +155,20 @@ console.log("fileName", fileName);
           withCredentials: true,
         });
       }
-      
+      if (matchCreateNotice !== null || updateNoticeMatch !== null) {
+        alert("공지 등록이 완료 되었습니다.");
+      navigate("/Notice")
+      }
+      else if (
+        matchCreateMemberRecruitment !== undefined ||
+        updateRecruitmentMatch !== null
+      ){
+        alert("부원 모집 등록이 완료 되었습니다.");
+        navigate("/MemberRecruitment")
+      }
       console.log("Notice created/updated:", response.data);
-      alert("등록이 완료 되었습니다.");
-      navigate("/MemberRecruitment")
+
+      
     } catch (error) {
       console.error("Error creating/updating notice:", error);
     }
