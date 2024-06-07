@@ -48,7 +48,7 @@ export default function TabBar() {
     switch (location.pathname) {
       case "/club":
         return 0;
-      case "/clubFestival":
+      case "/Notice":
         return 1;
       case "/video":
         return 2;
@@ -68,7 +68,7 @@ export default function TabBar() {
         navigate("/club");
         break;
       case 1:
-        navigate("/clubFestival");
+        navigate("/Notice");
         break;
       case 2:
         navigate("/video");

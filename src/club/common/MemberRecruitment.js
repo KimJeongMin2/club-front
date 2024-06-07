@@ -19,14 +19,19 @@ export default function MemberRecruitment() {
     const [recruitment, setRecruitment] = useRecoilState(recruitmentListState);
     
     useEffect(() => {
-        instance
-            .get("/posts/recruitment")
-            .then((response) => {
-              setRecruitment(response?.data);
-              console.log("recruitment", response?.data)
-            })
-            .catch((error) => console.error(error));
-    }, []);  
+      instance
+        .get(`/posts/recruitment`)
+        .then((response) => {
+          const cleanedRecruitList = response?.data.map((recruit) => ({
+            ...recruit,
+            content: extractTextFromHtml(recruit.content),
+          }));
+          setRecruitment(cleanedRecruitList);
+          console.log("setLatestRecruitList", setRecruitment);
+          console.log("cleanedRecruitList", cleanedRecruitList)
+        })
+        .catch((error) => console.error(error));
+    }, []);
   
   console.log("recruitmentrecruitment", recruitment)
   return (
@@ -85,4 +90,16 @@ export default function MemberRecruitment() {
       </Box>
     </Box>
   );
+}
+function extractTextFromHtml(htmlString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'text/html');
+
+  const pTags = doc.querySelectorAll('p');
+  let extractedText = '';
+  pTags.forEach(p => {
+    extractedText += p.textContent + '\n'; 
+  });
+
+  return extractedText.trim(); 
 }

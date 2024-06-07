@@ -19,15 +19,20 @@ export default function Notice() {
   const [noticeList, setNoticeList] = useRecoilState(noticeListState);
     
   useEffect(() => {
-      instance
-          .get("/posts")
-          .then((response) => {
-            setNoticeList(response?.data);
-            console.log("noticeList", response?.data)
-          })
-          .catch((error) => console.error(error));
-  }, []);  
-
+    instance
+      .get(`/posts`)
+      .then((response) => {
+        const cleanedNoticeList = response?.data.map((recruit) => ({
+          ...recruit,
+          content: extractTextFromHtml(recruit.content),
+        }));
+        setNoticeList(cleanedNoticeList);
+        console.log("setLatestRecruitList", setNoticeList);
+        console.log("cleanedRecruitList", cleanedNoticeList)
+      })
+      .catch((error) => console.error(error));
+  }, []);
+console.log("noticeList", noticeList)
   return (
     <Box sx={{ flexDirection: "column" }}>
       <Box sx={{ width: "100%" }}>
@@ -73,4 +78,16 @@ export default function Notice() {
       </Box>
     </Box>
   );
+}
+function extractTextFromHtml(htmlString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'text/html');
+
+  const pTags = doc.querySelectorAll('p');
+  let extractedText = '';
+  pTags.forEach(p => {
+    extractedText += p.textContent + '\n'; 
+  });
+
+  return extractedText.trim(); 
 }

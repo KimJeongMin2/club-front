@@ -25,12 +25,21 @@ export default function CreateNotice() {
   const matchUpdate = useMatch('/UpdateNotice/:id');
   const matchRecruitmentUpdate = useMatch('/UpdateMemberRecruitment/:id');
   const CreateMemberRecruitment = useMatch('/CreateMemberRecruitment');
+  const CreateNotice = useMatch('/CreateNotice');
   const noticeData = matchUpdate && notice ? notice : null;
   const recruitmentData = matchRecruitmentUpdate && recruitment ? recruitment : null;
   console.log("clubs", clubs)
-  console.log("clubs", clubs)
+ console.log("여기", notice)
   const studentId = 1;
+  console.log("noticeDatanoticeData", noticeData);
+  console.log("recruitmentData임", recruitmentData)
   console.log("clubId 여기여기여기", clubId)
+
+  useEffect(() => {
+    if(CreateMemberRecruitment|| CreateNotice){
+      setClubIdState([]);
+    }
+}, [CreateNotice, CreateMemberRecruitment]);  
 
   useEffect(() => {
     instance
@@ -52,7 +61,18 @@ useEffect(() => {
       })
       .catch((error) => console.error(error));
 }, [studentId]);  
+
+useEffect(() => {
+  if (noticeData) {
+    setClubIdState([noticeData?.noticeData?.club?.clubId]);
+  } else if (recruitmentData) {
+    setClubIdState([recruitmentData?.recruitment?.club?.clubId]);
+  }
+}, [noticeData, recruitmentData]);
+
   
+console.log("recruitmentData?.recruitment?.club?.clubId", recruitmentData?.recruitment?.club?.clubId)
+console.log("clubIdclubId", clubId)
   const handleOpen = () => {
     setOpen(true);
   };

@@ -15,7 +15,7 @@ export default function FileUploader({ club }) {
   const fileName = file?.name || (notice?.recruitment?.storedFileName || club?.club?.attachment?.originalFileName || '');
 
   console.log("notice", notice);
-
+  console.log("file 저장 됐니 뭐니", file)
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       setFile(file);
@@ -33,7 +33,7 @@ export default function FileUploader({ club }) {
     }
   }, [notice, setFile]);
 
- console.log("file 저장 됐니", file)
+
   return (
     <Box {...getRootProps()} border={"1px solid #dee2e6"}>
       <input {...getInputProps()} />
