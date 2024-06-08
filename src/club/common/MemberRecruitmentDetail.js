@@ -55,7 +55,7 @@ export default function MemberRecruitmentDetail() {
     if (file) {
       console.log("동작?", file);
       // saveAs(file, "clubJoin.hwp");
-      const fileName = recruitment?.recruitment?.storedFileName || "clubJoin.hwp";
+      const fileName = recruitment?.recruitment?.uploadFileName || "clubJoin.hwp";
       saveAs(file, fileName);
     }
   };
@@ -148,7 +148,7 @@ export default function MemberRecruitmentDetail() {
                   color="primary"
                   onClick={downloadFile}
                 >
-                  파일 다운로드
+                  {recruitment?.recruitment?.uploadFileName ? recruitment?.recruitment?.uploadFileName: "파일 다운로드"}
                 </Button>
               </CardContent>
             </Grid>

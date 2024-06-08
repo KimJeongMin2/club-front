@@ -279,7 +279,7 @@ export default function ClubJoinListTable(props) {
                           downloadFile(row?.clubJoinId); 
                         }}
                       >
-                        파일 다운로드
+                       {row?.uploadFileName? (row?.uploadFileName) : "파일 다운로드" }
                       </Button>
                     </TableCell>
                     <TableCell align="left">{row?.createdAt}</TableCell>
