@@ -12,9 +12,7 @@ import {
   import { useLocation, useNavigate, useParams } from "react-router-dom";
   import instance from "../../api/instance";
   import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-  import CategoryIcon from "@mui/icons-material/Category";
   import ButtonAppBar from "../../common/MainAppBar";
-
   
   export default function ClubBaseInfoDetail() {
     const location = useLocation();
@@ -25,6 +23,8 @@ import {
     const [history, setHistory] = useState(""); // 동아리 역사
     const [introduction, setIntroduction] = useState(""); // 동아리 소개
     const [meetingTime, setMeetingTime] = useState(""); // 정기 모임 시간
+    const [registrationFile, setRegistrationFile] = useState(null);
+    const [registrationUrl, setRegistrationUrl] = useState(null);
     const [photoFile, setPhotoFile] = useState(null);
     const [photoUrl, setPhotoUrl] = useState(null);
     const [staffListFile, setStaffListFile] = useState(null);
@@ -56,6 +56,10 @@ import {
         setHistory(club.history);
         setIntroduction(club.introduction);
         setMeetingTime(club.meetingTime);
+        if (club.registration) {
+          const registrationBlob = base64ToBlob(club.registration, 'application/octet-stream');
+          setPhotoUrl(URL.createObjectURL(registrationBlob));
+        }
         if (club.photo) {
           const photoBlob = base64ToBlob(club.photo, 'image/png');
           setPhotoUrl(URL.createObjectURL(photoBlob));
@@ -83,6 +87,7 @@ import {
         })], { type: "application/json" });
         formData.append("dto", jsonBlob);
 
+        if (registrationFile) formData.append("registration", registrationFile);
         if (photoFile) formData.append("photo", photoFile);
         if (staffListFile) formData.append("file", staffListFile);
     
@@ -151,9 +156,8 @@ import {
                     sx={{
                       border: "1px solid lightgray",
                       borderRadius: "5%",
-                      width: "500px", // 고정된 너비
-                      // height: "300px", // 고정된 높이
-                      objectFit: "cover", // 이미지 비율 유지
+                      width: "500px",
+                      objectFit: "cover", 
                       mt: "10px",
                     }}
                   />
@@ -229,6 +233,18 @@ import {
                           임원 명단 업로드
                         </Button>
                       </label>
+                      <input
+                      accept=".hwp,.pdf"
+                      id="registration-upload"
+                      type="file"
+                      onChange={(e) => handleFileUpload(e, setRegistrationFile, setRegistrationUrl)}
+                      style={{ display: "none" }}
+                      />
+                      <label htmlFor="registration-upload">
+                        <Button variant="contained" component="span">
+                          동아리 신청 파일 업로드
+                        </Button>
+                      </label>
                     </>
                   ) : (
                     <>
@@ -262,6 +278,12 @@ import {
                         <Typography variant="h6" sx={{ mt: 2 }}>임원 명단</Typography>
                         {staffListUrl && (
                           <Typography component="a" href={staffListUrl} download>
+                            다운로드
+                          </Typography>
+                        )}
+                        <Typography variant="h6" sx={{ mt: 2 }}>등록 파일</Typography>
+                        {registrationUrl && (
+                          <Typography component="a" href={registrationUrl} download>
                             다운로드
                           </Typography>
                         )}
