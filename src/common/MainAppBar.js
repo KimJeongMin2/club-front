@@ -34,7 +34,7 @@ export default function ButtonAppBar() {
           >
             {localStorage.getItem("name").substring(0, 1)}
           </Avatar>
-          <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button>
+          {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>
           <Button color="inherit" onClick={() => navigate("/ClubCreateList")}>동아리 신청조회</Button>
         </Toolbar>
