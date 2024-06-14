@@ -30,7 +30,7 @@ export default function CreateNotice() {
   const recruitmentData = matchRecruitmentUpdate && recruitment ? recruitment : null;
   console.log("clubs", clubs)
  console.log("여기", notice)
-  const studentId = 1;
+  const studentId = 2;
   console.log("noticeDatanoticeData", noticeData);
   console.log("recruitmentData임", recruitmentData)
   console.log("clubId 여기여기여기", clubId)

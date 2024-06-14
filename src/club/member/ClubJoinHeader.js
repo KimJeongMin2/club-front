@@ -7,26 +7,41 @@ import {
     ToggleButtonGroup,
     Typography,
   } from "@mui/material";
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import axios from "axios";
   import instance from "../../api/instance";
-  import { useNavigate, useMatch } from "react-router";
+  import { useNavigate, useMatch,useLocation } from "react-router";
 import { useRecoilState } from "recoil";
 import { fileState, titleState } from "../../recoil/state/noticeState";
   export default function ClubJoinHeader({clubNumber}) {
-    console.log(clubNumber.club.clubId)
+    //console.log(clubNumber.club.clubId)
+
     const navigate = useNavigate();
+    const location = useLocation();
     const [title, setTitle] = useRecoilState(titleState);
     const [file, setFile] = useRecoilState(fileState);
     const [member, setMember] = useState({
       studentId: 1,
-      name: "1",
+      name: "2",
     });
 
+    // const [club, setClub] = useState({
+    //   clubId: clubNumber?.club?.clubId,
+    // });
     const [club, setClub] = useState({
-      clubId: clubNumber?.club?.clubId,
+      clubId: null,
     });
-
+    const clubData = location?.state;
+    useEffect(() => {
+      if (clubNumber?.club?.clubId) {
+        setClub({ clubId: clubNumber.club.clubId });
+      } else if (clubData?.clubData?.clubId) {
+        setClub({ clubId: clubData.clubData.clubId });
+      }
+    }, [clubNumber, clubData]);
+  
+   
+    console.log("clubData",clubData)
     console.log("클럽 아이디", club)
     console.log("파일파일", file);
 

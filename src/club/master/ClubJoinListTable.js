@@ -31,7 +31,7 @@ export default function ClubJoinListTable(props) {
   const [rejectReason, setRejectReason] = useRecoilState(memberRefuseReason);
   
   useEffect(() => {
-    const userId = 1; 
+    const userId = 2; 
 
     instance.get(`/join-club`, {
       headers: {

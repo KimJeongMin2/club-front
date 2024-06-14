@@ -19,6 +19,23 @@ export default function MemberRecruitmentList({ recruitment }) {
 
   const [imageData, setImageData] = useState(null);
 
+  const mockMember = {
+    studentId: 2,
+    name: '홍길동',
+    clubMembers: [
+      {
+        club: { clubId: 9 },
+        memberStatus: 'ACTIVITY', 
+      },
+    ],
+  };
+
+  const isMemberInClub = mockMember.clubMembers.some(
+    (clubMember) => clubMember.club.clubId === recruitment?.postId && clubMember.memberStatus === 'ACTIVITY'
+  );
+
+  console.log("isMemberInClub", isMemberInClub);
+
   const handleApply = () => {
     navigate(`/ClubJoin/${recruitment?.postId}`, { state: { recruitment } });
   };
@@ -124,6 +141,7 @@ export default function MemberRecruitmentList({ recruitment }) {
                 e.stopPropagation();
                 handleApply();
               }}
+              disabled={isMemberInClub}
               >
                 신청
               </Button>
