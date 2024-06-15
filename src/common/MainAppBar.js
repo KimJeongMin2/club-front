@@ -7,10 +7,45 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 export default function ButtonAppBar() {
-  
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await axios.get("/api/session", {
+          withCredentials: true,
+        });
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
+        console.error(error);
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  const handleLogout = () => {
+    axios
+      .post("/api/logout", null, { withCredentials: true })
+      .then(() => {
+        setIsLoggedIn(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,8 +58,20 @@ export default function ButtonAppBar() {
           >
             동아리
           </Typography>
-          <Button color="inherit">로그인</Button>
-          <Button color="inherit">회원가입</Button>
+          {isLoggedIn ? (
+            <Button color="inherit" onClick={handleLogout}>
+              로그아웃
+            </Button>
+          ) : (
+            <>
+              <Button color="inherit" onClick={() => navigate("/signin")}>
+                로그인
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/signup")}>
+                회원가입
+              </Button>
+            </>
+          )}
           <Avatar
             sx={{
               bgcolor: stringToColor(localStorage.getItem("name")),
@@ -34,6 +81,7 @@ export default function ButtonAppBar() {
           >
             {localStorage.getItem("name").substring(0, 1)}
           </Avatar>
+          
           {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>
           <Button color="inherit" onClick={() => navigate("/ClubCreateList")}>동아리 신청조회</Button>

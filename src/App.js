@@ -24,12 +24,26 @@ import ClubJoinList from "./club/master/ClubJoinList";
 import MyPage from "./club/master/mypage/MyPage";
 import ClubApplicationList from "./club/manager/ClubApplicationList";
 import MyClubMember from "./club/master/MyClubMember";
+import SignUp from "./main/SignUp"; 
+import KakaoSignup from "./main/KakaoSignup"; 
+import SignIn from "./main/SignIn"; 
+import React, { useEffect } from 'react';
 import ClubList from "./club/common/ClubList";
 import Club from "./club/common/Club";
 import ClubDetail from "./club/common/ClubDetail";
 
 
 function App() {
+  useEffect(() => {
+    const initializeKakao = () => {
+      if (window.Kakao && !window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
+      }
+    };
+
+    initializeKakao();
+  }, []);
+
   return (
     <RecoilRoot>
     <Router>
@@ -57,6 +71,9 @@ function App() {
         <Route path="/MyPage" element={<MyPage />} />
         <Route path="/ClubApplicationList" element={<ClubApplicationList />} />
         <Route path="/MyClubMember" element={<MyClubMember />} />
+        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/KakaoSignup" element={<KakaoSignup />} />
+        <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Club" element={<Club/>}></Route>
         <Route path="/ClubDetail/:id" element={<ClubDetail/>}></Route>
       </Routes>
