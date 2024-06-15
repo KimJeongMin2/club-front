@@ -9,7 +9,7 @@ export const titleState = atom({
     default:'',
 })
 export const photoFileState = atom({
-    key: 'photoFileState',
+    key: 'noticePhotoFileState',
     default: null,
   });
 
