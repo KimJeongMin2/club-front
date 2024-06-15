@@ -14,7 +14,7 @@ export default function MyClub() {
   const navigate = useNavigate();  
 
   const [member, setMember] = useState({
-    studentId:2,
+    studentId:1,
     name: "김철수",
   });
 

@@ -136,7 +136,7 @@ export default function MemberRecruitmentList({ recruitment }) {
                  글쓴이 {recruitment?.member?.name}
                 </Typography>
               </Stack>
-              <Button
+              {/* <Button
                onClick={(e) => {
                 e.stopPropagation();
                 handleApply();
@@ -144,7 +144,7 @@ export default function MemberRecruitmentList({ recruitment }) {
               disabled={isMemberInClub}
               >
                 신청
-              </Button>
+              </Button> */}
               <DeleteIcon   onClick={(e) => {
                   e.stopPropagation(); 
                   sendDeleteNotice(recruitment?.postId);

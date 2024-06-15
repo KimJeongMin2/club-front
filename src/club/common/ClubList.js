@@ -22,12 +22,6 @@ import {
     const mockMember = {
       studentId: 1,
       name: '홍길동',
-      clubMembers: [
-        {
-          club: { clubId: 9 },
-          memberStatus: 'ACTIVITY', 
-        },
-      ],
     };
  
     const isMemberInClub = clubData?.members?.some(member =>
@@ -86,21 +80,21 @@ import {
                     sx={{ textAlign: "left" }}
                     fontWeight={"bold"}
                   >
-                    {clubData?.title}
+                    동아리명 {clubData?.clubName}
                   </Typography>
                   <Typography
                     variant="h6"
                     sx={{ textAlign: "left" }}
                     fontWeight={"bold"}
                   >
-                    {clubData?.content}
+                    {clubData?.type}
                   </Typography>
                   <Typography
                     variant="h6"
                     sx={{ textAlign: "left" }}
                     fontWeight={"bold"}
                   >
-                   글쓴이 {clubData?.member?.name}
+                   글쓴이 {clubData?.applicantName}
                   </Typography>
                 </Stack>
                 <Button
