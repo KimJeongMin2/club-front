@@ -28,6 +28,9 @@ import SignUp from "./main/SignUp";
 import KakaoSignup from "./main/KakaoSignup"; 
 import SignIn from "./main/SignIn"; 
 import React, { useEffect } from 'react';
+import ClubList from "./club/common/ClubList";
+import Club from "./club/common/Club";
+import ClubDetail from "./club/common/ClubDetail";
 
 
 function App() {
@@ -71,6 +74,8 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/KakaoSignup" element={<KakaoSignup />} />
         <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/Club" element={<Club/>}></Route>
+        <Route path="/ClubDetail/:id" element={<ClubDetail/>}></Route>
       </Routes>
     </Router>
     </RecoilRoot>

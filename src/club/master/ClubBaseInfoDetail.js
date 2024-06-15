@@ -12,9 +12,7 @@ import {
   import { useLocation, useNavigate, useParams } from "react-router-dom";
   import instance from "../../api/instance";
   import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-  import CategoryIcon from "@mui/icons-material/Category";
   import ButtonAppBar from "../../common/MainAppBar";
-
   
   export default function ClubBaseInfoDetail() {
     const location = useLocation();
@@ -25,6 +23,8 @@ import {
     const [history, setHistory] = useState(""); // 동아리 역사
     const [introduction, setIntroduction] = useState(""); // 동아리 소개
     const [meetingTime, setMeetingTime] = useState(""); // 정기 모임 시간
+    const [registrationFile, setRegistrationFile] = useState(null);
+    const [registrationUrl, setRegistrationUrl] = useState(null);
     const [photoFile, setPhotoFile] = useState(null);
     const [photoUrl, setPhotoUrl] = useState(null);
     const [staffListFile, setStaffListFile] = useState(null);
@@ -46,23 +46,50 @@ import {
       const byteArray = new Uint8Array(byteNumbers);
       return new Blob([byteArray], { type: type });
     };
+
+    const fetchFile = async (clubId, type, setUrl) => {
+      try {
+        const response = await instance.get(`/club/download/${type}/${clubId}`, {
+          responseType: 'blob',
+        });
   
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        if (type === 'registration') {
+          link.setAttribute('download', '동아리 가입신청서.hwp');
+        } else if (type === 'staffList') {
+          link.setAttribute('download', '동아리 임원 명단.hwp');
+        }
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } catch (error) {
+        console.error(`Error fetching the ${type} file:`, error);
+      }
+    };
+    
+
     useEffect(() => {
       if (location.state && location.state.club) {
         const { club } = location.state;
         console.log("club 있는지", club);
         setClub(club);
-        setClubName(club.clubName);
-        setHistory(club.history);
-        setIntroduction(club.introduction);
-        setMeetingTime(club.meetingTime);
+        setClubName(club.clubName || "");
+        setHistory(club.history || ""); 
+        setIntroduction(club.introduction || "");
+        setMeetingTime(club.meetingTime || "");
+        if (club.registration) {
+          setRegistrationUrl(`/club/download/registration/${club.clubId}`);
+        }
         if (club.photo) {
           const photoBlob = base64ToBlob(club.photo, 'image/png');
           setPhotoUrl(URL.createObjectURL(photoBlob));
         }
         if (club.staffList) {
-          const staffListBlob = base64ToBlob(club.staffList, 'text/plain');
-          setStaffListUrl(URL.createObjectURL(staffListBlob));
+          setStaffListUrl(`/club/download/staffList/${club.clubId}`);
         }
       } else {
         navigate("/MyClub");
@@ -83,10 +110,15 @@ import {
         })], { type: "application/json" });
         formData.append("dto", jsonBlob);
 
+        if (registrationFile) formData.append("registration", registrationFile);
         if (photoFile) formData.append("photo", photoFile);
-        if (staffListFile) formData.append("file", staffListFile);
+        if (staffListFile) formData.append("staffList", staffListFile);
     
-  
+
+        formData.forEach((value, key) => {
+          console.log(key, value);
+        });
+
         console.log("보낼 데이터:", formData)
         const response = await instance.post(`/club/detail/${club?.clubId}`, formData, 
         {
@@ -102,6 +134,8 @@ import {
         console.error("Error updating club:", error);
       }
     };
+
+  
   
     return (
       <Grid container direction={"row"} spacing={0.5}>
@@ -151,10 +185,10 @@ import {
                     sx={{
                       border: "1px solid lightgray",
                       borderRadius: "5%",
-                      width: "500px", // 고정된 너비
-                      // height: "300px", // 고정된 높이
-                      objectFit: "cover", // 이미지 비율 유지
-                      mt: "10px",
+                      objectFit: "cover", 
+                      mt: 2,
+                      mr: 2,
+                      overflow: "auto",
                     }}
                   />
                 )}
@@ -218,7 +252,7 @@ import {
                         sx={{ mb: 1 }}
                       />
                       <input
-                        accept=".txt"
+                        accept=".hwp,.pdf"
                         id="staff-list-upload"
                         type="file"
                         onChange={(e) => handleFileUpload(e, setStaffListFile, setStaffListUrl)}
@@ -227,6 +261,18 @@ import {
                       <label htmlFor="staff-list-upload">
                         <Button variant="contained" component="span">
                           임원 명단 업로드
+                        </Button>
+                      </label>
+                      <input
+                        accept=".hwp,.pdf"
+                        id="registration-upload"
+                        type="file"
+                        onChange={(e) => handleFileUpload(e, setRegistrationFile, setRegistrationUrl)}
+                        style={{ display: "none" }}
+                      />
+                      <label htmlFor="registration-upload">
+                        <Button variant="contained" component="span">
+                          동아리 가입 신청서 업로드
                         </Button>
                       </label>
                     </>
@@ -261,9 +307,15 @@ import {
                         <Typography>{meetingTime}</Typography>
                         <Typography variant="h6" sx={{ mt: 2 }}>임원 명단</Typography>
                         {staffListUrl && (
-                          <Typography component="a" href={staffListUrl} download>
-                            다운로드
-                          </Typography>
+                        <Button variant="contained" onClick={() => fetchFile(club.clubId, 'staffList')}>
+                          다운로드
+                        </Button>
+                        )}
+                        <Typography variant="h6" sx={{ mt: 2 }}>동아리 가입 신청서</Typography>
+                        {registrationUrl && (
+                        <Button variant="contained" onClick={() => fetchFile(club.clubId, 'registration')}>
+                          다운로드
+                        </Button>
                         )}
                       </CardContent>
                     </>

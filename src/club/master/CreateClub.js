@@ -13,7 +13,7 @@ const CreateClub = () => {
 
   const [member, setMember] = useState({
     studentId: 2,
-    name: "이영희",
+    name: "김철수",
   });
 
   const [formData, setFormData] = useState({

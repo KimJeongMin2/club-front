@@ -104,7 +104,7 @@ console.log("fileName", fileName);
         noticeVisibilityType: alignment,
         member: member,
         club: club,
-        storedFileName:fileName
+        // storedFileName:fileName
       };
     }
 

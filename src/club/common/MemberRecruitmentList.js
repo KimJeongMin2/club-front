@@ -19,6 +19,23 @@ export default function MemberRecruitmentList({ recruitment }) {
 
   const [imageData, setImageData] = useState(null);
 
+  const mockMember = {
+    studentId: 2,
+    name: '홍길동',
+    clubMembers: [
+      {
+        club: { clubId: 9 },
+        memberStatus: 'ACTIVITY', 
+      },
+    ],
+  };
+
+  const isMemberInClub = mockMember.clubMembers.some(
+    (clubMember) => clubMember.club.clubId === recruitment?.postId && clubMember.memberStatus === 'ACTIVITY'
+  );
+
+  console.log("isMemberInClub", isMemberInClub);
+
   const handleApply = () => {
     navigate(`/ClubJoin/${recruitment?.postId}`, { state: { recruitment } });
   };
@@ -119,14 +136,15 @@ export default function MemberRecruitmentList({ recruitment }) {
                  글쓴이 {recruitment?.member?.name}
                 </Typography>
               </Stack>
-              <Button
+              {/* <Button
                onClick={(e) => {
                 e.stopPropagation();
                 handleApply();
               }}
+              disabled={isMemberInClub}
               >
                 신청
-              </Button>
+              </Button> */}
               <DeleteIcon   onClick={(e) => {
                   e.stopPropagation(); 
                   sendDeleteNotice(recruitment?.postId);

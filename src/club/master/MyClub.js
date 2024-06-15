@@ -14,13 +14,14 @@ export default function MyClub() {
   const navigate = useNavigate();  
 
   const [member, setMember] = useState({
-    studentId: 1,
-    name: "서영은",
+    studentId:1,
+    name: "김철수",
   });
 
   const [clubList, setClubList] = useRecoilState(clubListState);
     
   useEffect(() => {
+    console.log("실행");
       instance
           .get(`/club/my/${member.studentId}`)
           .then((response) => {

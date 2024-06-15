@@ -35,7 +35,7 @@ import MyClubMemberToolBar from "./MyClubMemberToolBar";
     
     const [myClubMember, setMyClubMemberList] = useRecoilState(clubJoinMemberState);
     useEffect(() => {
-      const userId = 1; 
+      const userId = 2; 
   
       instance.get(`/join-club/approved-members`, {
         headers: {
