@@ -11,7 +11,7 @@ import {
   Select,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from 'axios';
+import instance from "../api/instance";
 
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
@@ -53,7 +53,7 @@ const SignUp = () => {
       const code = urlParams.get('code');
 
       if (code) {
-          axios.post('/oauth/callback/kakao', { code })
+        instance.post('oauth/callback/kakao', { code })
           .then(response => {
               console.log('인가 코드 전송 완료:', response.data);
               navigate('/KakaoSignup');
@@ -71,7 +71,7 @@ const SignUp = () => {
         redirectUri: process.env.REACT_APP_REDIRECT_URI,
         scope: 'account_email,gender,name,phone_number'
       }).then(authObj => {
-        axios.post('/oauth/callback/kakao', {
+        instance.post('oauth/callback/kakao', {
           code: authObj.code
         })
         .then(response => {
@@ -92,7 +92,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/members/signup', {
+      const response = await instance.post('members/signup', {
         userId,
         pw,
         name,

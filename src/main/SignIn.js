@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Grid,
@@ -9,6 +9,8 @@ import {
 import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import instance from "../api/instance";
+
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
 const Login = () => {
@@ -17,6 +19,8 @@ const Login = () => {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [sessionInfo, setSessionInfo] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
   useEffect(() => {
@@ -38,56 +42,71 @@ const Login = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const code = urlParams.get('code');
-
+    console.log("여긴 동작하니");
     if (code) {
-      axios.get(`/api/oauth/callback/kakao/login?code=${code}`, { withCredentials: true })
+      console.log('좀');
+      instance.get(`oauth/callback/kakao/login?code=${code}`, { withCredentials: true })
         .then(response => {
           console.log('인가 코드 전송 완료:', response.data);
-          const { id, roleType } = response.data;
-          localStorage.setItem('userId', id);
-          localStorage.setItem('roleType', roleType);
+          const userInfo = response.data;
           navigate('/');
+          if (userInfo.isLoggedIn) {
+            window.localStorage.setItem('userId', userInfo.id);
+            window.localStorage.setItem('roleType', userInfo.roleType);
+            window.localStorage.setItem('isLoggedIn', userInfo.isLoggedIn);
+          }
+          setSessionInfo(response.data); // 세션 정보 상태에 저장
+          console.log('Session Info:', response.data);
         })
         .catch(error => {
           console.error('인가 코드 전송 실패:', error);
         });
     }
-}, [location.search, navigate]);
+  }, [location.search, navigate]);
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';');
+    const cookieData = {};
+
+    cookies.forEach(cookie => {
+      const [key, value] = cookie.trim().split('=');
+      cookieData[key] = value;
+    });
+
+    if (cookieData.userId && cookieData.roleType && cookieData.isLoggedIn === 'true') {
+      localStorage.setItem('userId', cookieData.userId);
+      localStorage.setItem('roleType', cookieData.roleType);
+      localStorage.setItem('isLoggedIn', cookieData.isLoggedIn);
+      navigate('/');
+    }
+  }, [navigate]);
 
   const loginWithKakao = () => {
     if (kakaoLoaded && window.Kakao && window.Kakao.Auth && window.Kakao.Auth.authorize) {
-        window.Kakao.Auth.authorize({
-            redirectUri: process.env.REACT_APP_REDIRECT_URI
-        });
-    } else {
-        console.error("Kakao SDK 또는 Auth 모듈이 로드되지 않았습니다.");
-    }
-};
-
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-      const response = await axios.post(`${process.env.REACT_APP_API}/login`, { userId, password });
-      console.log('로그인 성공:', response.data);
-      navigate('/');
-  } catch (error) {
-      alert('로그인 실패');
-  }
-};
-useEffect(() => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const code = queryParams.get('code');
-  if (code) {
-    axios.get(`${process.env.REACT_APP_API}/oauth/callback/kakao?code=${code}`, { withCredentials: true })
-      .then(() => {
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error('로그인 중 오류 발생:', error);
-        alert('로그인 중 오류가 발생했습니다.');
+      window.Kakao.Auth.authorize({
+        redirectUri: process.env.REACT_APP_REDIRECT_URI
       });
-  }
-}, [navigate]);
+    } else {
+      console.error("Kakao SDK 또는 Auth 모듈이 로드되지 않았습니다.");
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await instance.post('/login', { userId, password });
+      const userInfo = response.data;
+
+      if (userInfo.isLoggedIn) {
+        localStorage.setItem('userId', userInfo.id);
+        localStorage.setItem('roleType', userInfo.roleType);
+        localStorage.setItem('isLoggedIn', userInfo.isLoggedIn);
+        navigate('/'); // 로그인 후 홈으로 리다이렉트
+      }
+    } catch (error) {
+      alert('로그인 실패');
+    }
+  };
 
 
 
