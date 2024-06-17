@@ -22,7 +22,7 @@ const CreateClub = () => {
     professorMajor: '',
     professorPhone: '',
     member: {
-      uid: '',
+      uid: userId,
       name: '',
     },
   });
@@ -31,23 +31,31 @@ const CreateClub = () => {
    useEffect(() => {
     async function fetchMemberInfo() {
       try {
-        const response = await instance.get(`/members/baseInfo/${userId}`);
+        const response = await instance.get(`members/baseInfo/${userId}`);
         const memberInfo = response.data;
 
-        setFormData({
-          ...formData,
+        // setFormData({
+        //   ...formData,
+        //   applicantName: memberInfo.name,
+        //   applicantDepartment: memberInfo.department,
+        //   applicantId: memberInfo.studentId,
+        //   applicantPhone: memberInfo.phoneNum,
+        // });
+        setFormData((prevFormData) => ({
+          ...prevFormData,
           applicantName: memberInfo.name,
           applicantDepartment: memberInfo.department,
           applicantId: memberInfo.studentId,
           applicantPhone: memberInfo.phoneNum,
-        });
+        }));
+
       } catch (error) {
         console.error('Error fetching member information:', error);
       }
     }
 
     fetchMemberInfo();
-  }, []);
+  }, [userId]);
 
 
   const handleChange = (e) => {

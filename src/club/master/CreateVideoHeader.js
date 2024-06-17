@@ -30,23 +30,22 @@ import {
     const video = location.state?.video;
   
     const videoId = video?.noticeData?.postId;
-    const [member, setMember] = useState({
-      studentId: "1",
-      name: "1",
-    });
+
   
     const createVideo = async () => {
       try {
         const videoData = {
           title: title,
           content: contents,
-          member: member,
+          member: {
+            uid: userId,
+          },        
         };
     
         const formData = new FormData();
         formData.append("dto", new Blob([JSON.stringify(videoData)], { type: "application/json" }));
     
-        const url = isEdit ? `/posts/video/${videoId}` : "/posts/video";
+        const url = isEdit ? `posts/video/${videoId}` : "posts/video";
         let response;
         if (isEdit) {
           response = await instance.put(url, formData, {
