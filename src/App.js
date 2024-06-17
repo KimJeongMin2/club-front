@@ -32,6 +32,8 @@ import ClubList from "./club/common/ClubList";
 import Club from "./club/common/Club";
 import ClubDetail from "./club/common/ClubDetail";
 import Picture from "./club/common/Picture";
+import PictureDetail from "./club/master/PictureDetail";
+import CreatePicture from "./club/master/CreatePicture";
 
 
 function App() {
@@ -77,7 +79,11 @@ function App() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Club" element={<Club/>}></Route>
         <Route path="/ClubDetail/:id" element={<ClubDetail/>}></Route>
+        <Route path="/PictureDetail/:postId" element={<PictureDetail/>}></Route>
         <Route path="/Picture" element={<Picture/>}></Route>
+        {/* <Route path="/PictureList" element={<PictureList/>}></Route> */}
+        <Route path="/CreatePicture" element={<CreatePicture/>}></Route>
+        
       </Routes>
     </Router>
     </RecoilRoot>
