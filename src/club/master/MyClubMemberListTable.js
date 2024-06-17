@@ -26,6 +26,7 @@ import {
   import { saveAs } from "file-saver";
 import MyClubMemberListHeader from "./MyClubMemberListHeader";
 import MyClubMemberToolBar from "./MyClubMemberToolBar";
+import Cookies from 'js-cookie';
   export default function MyClubMemberListTable(props) {
     const location = useLocation();
     const [selected, setSelected] = useRecoilState(clubJoinIdState);
@@ -35,11 +36,14 @@ import MyClubMemberToolBar from "./MyClubMemberToolBar";
     
     const [myClubMember, setMyClubMemberList] = useRecoilState(clubJoinMemberState);
     useEffect(() => {
-      const userId = 2; 
+      const memberData = {
+        uid: Cookies.get('userId'),
+      };
+   
   
       instance.get(`/join-club/approved-members`, {
         headers: {
-          'userId': userId, 
+          'userId': memberData.uid, 
         },
       })
       .then((response) => {

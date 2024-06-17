@@ -14,7 +14,8 @@ import Cookies from 'js-cookie';
 export default function ButtonAppBar() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const roleType = Cookies.get('roleType');
+  console.log("roleType", roleType)
   useEffect(() => {
     const cookies = document.cookie.split(";");
     const cookieData = {};
@@ -48,7 +49,7 @@ export default function ButtonAppBar() {
         console.error(error);
       });
   };
-
+  console.log("COOKIES", Cookies.get('JSESSIONID'))
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -75,15 +76,16 @@ export default function ButtonAppBar() {
               </Button>
             </>
           )}
-          {/* <Avatar
+          {isLoggedIn && roleType=='MASTER' ?  ( <Avatar
             sx={{
-              bgcolor: stringToColor(localStorage.getItem("name")),
+              bgcolor: stringToColor(Cookies.get('name')),
               cursor: "pointer"
             }}
             onClick={() => navigate("/MyPage")}
           >
-            {localStorage.getItem("name").substring(0, 1)}
-          </Avatar> */}
+            {Cookies.get('name').substring(0, 1)}
+          </Avatar>): ("")}
+         
           
           {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>

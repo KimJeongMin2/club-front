@@ -13,6 +13,7 @@ import {
   import { useNavigate, useMatch,useLocation } from "react-router";
 import { useRecoilState } from "recoil";
 import { fileState, titleState } from "../../recoil/state/noticeState";
+import Cookies from 'js-cookie';
   export default function ClubJoinHeader({clubNumber}) {
     //console.log(clubNumber.club.clubId)
 
@@ -21,8 +22,8 @@ import { fileState, titleState } from "../../recoil/state/noticeState";
     const [title, setTitle] = useRecoilState(titleState);
     const [file, setFile] = useRecoilState(fileState);
     const [member, setMember] = useState({
-      studentId: 1,
-      name: "2",
+      uid: Cookies.get('userId'),
+      name: Cookies.get('name'),
     });
 
     // const [club, setClub] = useState({

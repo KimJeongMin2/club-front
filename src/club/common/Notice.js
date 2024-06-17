@@ -8,14 +8,11 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import instance from "../../api/instance";
 import { noticeListState } from "../../recoil/state/noticeState";
+import Cookies from 'js-cookie';
 export default function Notice() {
-  const noticeData = [
-    { id: 1, name: "동아리A", notice: "동아리A 공지" },
-    { id: 2, name: "동아리B", notice: "동아리B 공지" },
-  ];
   const navigate = useNavigate();
-
-    
+  const roleType =  Cookies.get('roleType');
+  console.log("roleType", roleType)
   const [noticeList, setNoticeList] = useRecoilState(noticeListState);
     
   useEffect(() => {
@@ -50,13 +47,14 @@ console.log("noticeList", noticeList)
         <Grid container direction="column" spacing={2}>
           <Grid item xs={12}>
             <Grid container direction={"row"} justifyContent={"flex-end"}>
-              <Button
+              {roleType == 'MASTER' ? (<Button
                 variant="outlined"
                 endIcon={<ContentPasteGoIcon />}
                 onClick={() => navigate("/CreateNotice")}
               >
                 공지 등록
-              </Button>
+              </Button>):("")}
+              
             </Grid>
           </Grid>
           <Grid item xs={12}>
