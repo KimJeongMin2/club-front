@@ -22,7 +22,8 @@ export default function Video() {
             console.log("videoList", response?.data)
           })
           .catch((error) => console.error(error));
-  }, []);  
+  }, [setVideoList]);
+
 
   return (
     <Box sx={{ flexDirection: "column" }}>
@@ -59,8 +60,9 @@ export default function Video() {
               alignItems={"center"}
             >
               {videoList?.map((data) => (
-                <Grid item xs={1} key={data.id}>
+                <Grid item xs={1} key={data.id}> 
                   <VideoList videoData={data} />
+                  {/* <VideoList key={data.id} videoData={data} />             */}
                 </Grid>
               ))}
             </Grid>
