@@ -146,11 +146,8 @@ export default function VideoList({ videoData }) {
   console.log("videoData postId:", videoData.postId);
   console.log("videoData content:", videoData.content); // 동영상 ID 확인용
 
-
   const navigate = useNavigate();
   const [videoUrl, setVideoUrl] = useState("");
-
-
 
   useEffect(() => {
     if (videoData?.content) {
@@ -160,7 +157,7 @@ export default function VideoList({ videoData }) {
   }, [videoData]);
 
   const handleVideoDetail = (videoData) => {
-    console.log("videoId???", videoData.postId)
+    console.log("videoId???", videoData.postId);
     navigate(`/VideoDetail/${videoData.postId}`, { state: { videoData } });
   };
 
@@ -191,7 +188,7 @@ export default function VideoList({ videoData }) {
   return (
     <Box sx={{ flexDirection: "row", width: "900px", borderRadius: 3, mt: 5 }}>
       <Grid container direction="column">
-      <Card
+        <Card
           sx={{
             width: "100%",
             display: "flex",

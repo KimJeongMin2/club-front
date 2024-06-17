@@ -9,21 +9,18 @@ import instance from "../../api/instance";
 import { videoListState } from "../../recoil/state/videoState.js";
 
 export default function Video() {
-
   const navigate = useNavigate();
-
   const [videoList, setVideoList] = useRecoilState(videoListState);
-    
-  useEffect(() => {
-      instance
-          .get("/posts/video")
-          .then((response) => {
-            setVideoList(response?.data);
-            console.log("videoList", response?.data)
-          })
-          .catch((error) => console.error(error));
-  }, [setVideoList]);
 
+  useEffect(() => {
+    instance
+      .get("/posts/video")
+      .then((response) => {
+        setVideoList(response?.data);
+        console.log("videoList", response?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [setVideoList]);
 
   return (
     <Box sx={{ flexDirection: "column" }}>
@@ -60,13 +57,13 @@ export default function Video() {
               alignItems={"center"}
             >
               {videoList?.map((data) => (
-                <Grid item xs={1} key={data.id}> 
+                <Grid item xs={1} key={data.postId}> 
                   <VideoList videoData={data} />
-                  {/* <VideoList key={data.id} videoData={data} />             */}
                 </Grid>
               ))}
             </Grid>
           </Grid>
+
         </Grid>
       </Box>
     </Box>
