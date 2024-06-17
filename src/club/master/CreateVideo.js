@@ -20,8 +20,8 @@ export default function CreateVideo(){
     console.log("video: ", videoData);
     
     const [member, setMember] = useState({
-        studentId: 1,
-        name: "서영은",
+        uid: 3528981213,
+        name: "김정민",
     });
 
     const [formData, setFormData] = useState({
