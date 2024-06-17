@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
 const Login = () => {
@@ -17,6 +17,7 @@ const Login = () => {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+
 
   useEffect(() => {
     const loadKakaoSdk = async () => {
@@ -87,6 +88,8 @@ useEffect(() => {
       });
   }
 }, [navigate]);
+
+
 
   return (
     <Grid

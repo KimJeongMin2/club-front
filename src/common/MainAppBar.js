@@ -10,10 +10,17 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
+import Cookies from 'js-cookie';
+import { pink } from "@mui/material/colors";
+import instance from "../api/instance";
+
+const JSESSIONID = Cookies.get('JSESSIONID');
+
 export default function ButtonAppBar() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  console.log("JSESSIONID", JSESSIONID);
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -74,12 +81,13 @@ export default function ButtonAppBar() {
           )}
           <Avatar
             sx={{
-              bgcolor: stringToColor(localStorage.getItem("name")),
+              // bgcolor: stringToColor(localStorage.getItem("name")),
               cursor: "pointer"
             }}
             onClick={() => navigate("/MyPage")}
           >
-            {localStorage.getItem("name").substring(0, 1)}
+            My
+            {/* {localStorage.getItem("name").substring(0, 1)} */}
           </Avatar>
           
           {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
