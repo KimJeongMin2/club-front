@@ -14,7 +14,6 @@ import {
     titleState,
   } from "../../recoil/state/videoState";
   import { useState } from "react";
-  import axios from "axios";
   import instance from "../../api/instance";
   import { useNavigate } from "react-router";
   export default function CreateVideoHeader({isEdit = false}) {
