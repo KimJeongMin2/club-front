@@ -40,7 +40,7 @@ export default function ButtonAppBar() {
         Cookies.remove('userId');
         Cookies.remove('roleType');
         Cookies.remove('isLoggedIn');
-
+        Cookies.remove('name');
         
         setIsLoggedIn(false);
         navigate("/");
