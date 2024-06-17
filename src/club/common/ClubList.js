@@ -13,19 +13,20 @@ import {
   import { useNavigate } from "react-router-dom";
   import DeleteIcon from '@mui/icons-material/Delete';
   import instance from "../../api/instance";
+  import Cookies from 'js-cookie';
   export default function ClubList({ clubData }) {
     console.log("club", clubData);
     const navigate = useNavigate();
   
     const [imageData, setImageData] = useState(null);
   
-    const mockMember = {
-      studentId: 1,
-      name: '홍길동',
+    const memberData = {
+      uid: Cookies.get('userId'),
+      name: Cookies.get('name'),
     };
  
     const isMemberInClub = clubData?.members?.some(member =>
-        member.member.studentId === mockMember.studentId &&
+        member.member.uid === memberData.uid &&
         member.memberStatus === 'ACTIVITY'
       );
     console.log("isMemberInClub", isMemberInClub)

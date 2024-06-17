@@ -12,7 +12,7 @@ const CreateClub = () => {
 
 
   const [member, setMember] = useState({
-    studentId: 2,
+    uid: 3528981213,
     name: "김철수",
   });
 
