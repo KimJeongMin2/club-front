@@ -1,4 +1,6 @@
 import { Box, Grid, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 
 const activityImages = [
   { id: 1, imageUrl: 'https://www.next-t.co.kr/public/uploads/7b7f7e2138e29e598cd0cdf2c85ea08d.jpg', imageName: '활동 사진 1' },
@@ -8,10 +10,22 @@ const activityImages = [
 ];
 
 export default function ActivityPicture() {
+  const navigate = useNavigate();
   return (
     <Grid container direction="column" spacing={1} sx={{ mt: "50px" }}>
       <Grid item xs={12}>
-        <Typography sx={{ ml: "1rem" }}>활동사진</Typography>
+      <Grid container direction="row" alignItems="center">
+        <Typography  sx={{ ml: "1rem", mr: "0.5rem" }}>활동사진(최신순)</Typography>
+        <AddIcon 
+            style={{
+              color: "#F2BED1",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              navigate("/Picture");
+            }}
+          />
+          </Grid>
       </Grid>
       <Grid item xs={12}>
         <Grid container spacing={2}>

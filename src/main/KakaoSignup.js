@@ -11,8 +11,7 @@ import {
   Select,
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from 'axios';
-
+import instance from "../api/instance";
 
 const KakaoSignUp = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const KakaoSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/signup', {
+      const response = await instance.post('signup', {
         userId,
         birth,
         department,

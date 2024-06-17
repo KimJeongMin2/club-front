@@ -31,6 +31,7 @@ import React, { useEffect } from 'react';
 import ClubList from "./club/common/ClubList";
 import Club from "./club/common/Club";
 import ClubDetail from "./club/common/ClubDetail";
+import Picture from "./club/common/Picture";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Club" element={<Club/>}></Route>
         <Route path="/ClubDetail/:id" element={<ClubDetail/>}></Route>
+        <Route path="/Picture" element={<Picture/>}></Route>
       </Routes>
     </Router>
     </RecoilRoot>

@@ -7,37 +7,40 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
+import instance from "../api/instance";
+import Cookies from 'js-cookie';
 export default function ButtonAppBar() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const response = await axios.get("/api/session", {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoggedIn(false);
-      }
-    };
+    const cookies = document.cookie.split(";");
+    const cookieData = {};
 
-    checkSession();
+    cookies.forEach((cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      cookieData[key] = value;
+    });
+
+    if (cookieData.userId) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
   const handleLogout = () => {
-    axios
-      .post("/api/logout", null, { withCredentials: true })
+    instance
+      .post("logout", null, { withCredentials: true })
       .then(() => {
+        // 쿠키 삭제
+        Cookies.remove('userId');
+        Cookies.remove('roleType');
+        Cookies.remove('isLoggedIn');
+
+        
         setIsLoggedIn(false);
         navigate("/");
       })
@@ -72,7 +75,7 @@ export default function ButtonAppBar() {
               </Button>
             </>
           )}
-          <Avatar
+          {/* <Avatar
             sx={{
               bgcolor: stringToColor(localStorage.getItem("name")),
               cursor: "pointer"
@@ -80,7 +83,7 @@ export default function ButtonAppBar() {
             onClick={() => navigate("/MyPage")}
           >
             {localStorage.getItem("name").substring(0, 1)}
-          </Avatar>
+          </Avatar> */}
           
           {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>
