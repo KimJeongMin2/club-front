@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Grid, TextField, Button, MenuItem, Typography } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
-import axios from "axios";
 import instance from "../../api/instance";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
+
 
 const CreateClub = () => {
-  const location = useLocation();
 
+  const userId = Cookies.get('userId');
   const navigate = useNavigate();
-
-
-  const [member, setMember] = useState({
-    uid: 3528981213,
-    name: "김철수",
-  });
 
   const [formData, setFormData] = useState({
     type: '',
@@ -26,8 +21,34 @@ const CreateClub = () => {
     professorName: '',
     professorMajor: '',
     professorPhone: '',
-    member: member,
+    member: {
+      uid: '',
+      name: '',
+    },
   });
+
+   // 사용자 정보 가져오기
+   useEffect(() => {
+    async function fetchMemberInfo() {
+      try {
+        const response = await instance.get(`/members/baseInfo/${userId}`);
+        const memberInfo = response.data;
+
+        setFormData({
+          ...formData,
+          applicantName: memberInfo.name,
+          applicantDepartment: memberInfo.department,
+          applicantId: memberInfo.studentId,
+          applicantPhone: memberInfo.phoneNum,
+        });
+      } catch (error) {
+        console.error('Error fetching member information:', error);
+      }
+    }
+
+    fetchMemberInfo();
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,8 +61,6 @@ const CreateClub = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const curmemberPk = 1; // 임의로 둠
-
     try {
       const clubData = {
         type: formData.type,
@@ -53,32 +72,24 @@ const CreateClub = () => {
         professorName: formData.professorName,
         professorMajor: formData.professorMajor,
         professorPhone: formData.professorPhone,
-        member: member
+        member: { uid: userId, name: formData.applicantName }, 
       };
 
-      console.log("clubData", clubData)
-
-      const response = await instance.post(
-        // `club?memberPk=${curmemberPk}`,
-        "club",
-        clubData,
-        {
-          withCredentials: true,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-
-      );
+      const response = await instance.post("club", clubData, { withCredentials: true });
 
       console.log('Club created:', response.data);
-      navigate("/memberRecruitment")
+      alert('동아리 신청이 완료되었습니다');
+      navigate("/club");
     } catch (error) {
       console.error('Error creating club:', error);
     }
   };
+
+  const handleCancel = () => {
+    alert('동아리 신청을 취소합니다.');
+    navigate("/club");
+  };
+
 
 
   return (
@@ -119,6 +130,7 @@ const CreateClub = () => {
                 name="applicantName"
                 value={formData.applicantName}
                 onChange={handleChange}
+                disabled 
               />
             </Grid>
             <Grid item xs={12}>
@@ -128,6 +140,7 @@ const CreateClub = () => {
                 name="applicantDepartment"
                 value={formData.applicantDepartment}
                 onChange={handleChange}
+                disabled
               />
             </Grid>
             <Grid item xs={12}>
@@ -137,6 +150,7 @@ const CreateClub = () => {
                 name="applicantId"
                 value={formData.applicantId}
                 onChange={handleChange}
+                disabled
               />
             </Grid>
             <Grid item xs={12}>
@@ -146,6 +160,7 @@ const CreateClub = () => {
                 name="applicantPhone"
                 value={formData.applicantPhone}
                 onChange={handleChange}
+                disabled
               />
             </Grid>
             <Grid item xs={12}>
@@ -178,6 +193,11 @@ const CreateClub = () => {
             <Grid item xs={12}>
               <Button type="submit" variant="contained" color="primary" fullWidth>
                 신청
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="outlined" color="secondary" fullWidth onClick={handleCancel}>
+                취소
               </Button>
             </Grid>
           </Grid>

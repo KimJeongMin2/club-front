@@ -207,10 +207,12 @@ export default function ClubBaseInfoDetail() {
                 <CardMedia
                   component="img"
                   alt="image"
+                  height="800"
                   image={photoUrl}
                   sx={{
                     border: "1px solid lightgray",
                     borderRadius: "5%",
+                    width: "100%",
                     objectFit: "cover",
                     mt: 2,
                     mr: 2,

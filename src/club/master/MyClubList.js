@@ -55,13 +55,20 @@ export default function MyClubList({ club }) {
   return (
     <Box sx={{ flexDirection: "row", width: "900px", borderRadius: 3, mt: 5 }}>
       <Grid container direction="column">
-        {isBasicInfoEmpty && (
+        {/* {isBasicInfoEmpty && (
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Button variant="contained" color="primary" onClick={handleRegisterClub}>
               등록
             </Button>
           </Grid>
         )}
+        {!isBasicInfoEmpty && (
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="contained" color="primary" onClick={handleClubBaseInfoDetail}>
+              수정
+            </Button>
+          </Grid>
+        )} */}
       <Card
           sx={{
             width: "100%",
@@ -76,7 +83,7 @@ export default function MyClubList({ club }) {
               <CardMedia
                 component="img"
                 alt="image"
-                height="150"
+                height="250"
                 image={imageData}
                 sx={{
                   border: "1px solid lightgray",
@@ -103,6 +110,26 @@ export default function MyClubList({ club }) {
                 >
                   {club?.clubName}
                 </Typography>
+                {isBasicInfoEmpty ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ ml: "auto" }}
+                  onClick={handleRegisterClub}
+                >
+                  등록
+                </Button>
+                ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ ml: "auto" }}
+                  onClick={handleClubBaseInfoDetail}
+                >
+                  수정
+                </Button>
+              )}
+
               </Stack>
               <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
                 <Typography variant="body2" color="textSecondary">

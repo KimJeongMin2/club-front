@@ -88,7 +88,10 @@ export default function ButtonAppBar() {
          
           
           {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
+          {roleType === 'MANAGER' && (
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>
+          )}
+
           <Button color="inherit" onClick={() => navigate("/ClubCreateList")}>동아리 신청조회</Button>
         </Toolbar>
       </AppBar>
