@@ -69,3 +69,8 @@ export const clubJoinMemberState = atom({
     key: "clubJoinMemberState",
     default: []
 });
+
+export const clubRejectReasonState = atom({
+    key: "clubRejectReasonState",
+    default: {},
+});
