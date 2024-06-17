@@ -1,10 +1,7 @@
-import { Box, Grid, Fab, Button } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
-import MemberRecruitmentList from "./MemberRecruitmentList";
-import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import instance from "../../api/instance";
-import { noticeListState, recruitmentListState } from "../../recoil/state/noticeState";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
@@ -42,6 +39,17 @@ export default function Club() {
           bottom: 0,
         }}
       >
+          <Grid item xs={12}>
+            <Grid container direction={"row"} justifyContent={"flex-end"}>
+              <Button
+                variant="outlined"
+                endIcon={<ContentPasteGoIcon />}
+                onClick={() => navigate("/CreateClub")}
+              >
+                동아리 등록
+              </Button>
+            </Grid>
+          </Grid>
         <Grid container direction="column" spacing={2}>
         <Grid item xs={12}>
           </Grid>

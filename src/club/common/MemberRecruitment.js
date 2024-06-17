@@ -1,7 +1,6 @@
-import { Box, Grid, Fab, Button } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
 import MemberRecruitmentList from "./MemberRecruitmentList";
-import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import instance from "../../api/instance";
 import { noticeListState, recruitmentListState } from "../../recoil/state/noticeState";
@@ -60,17 +59,7 @@ export default function MemberRecruitment() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container direction={"row"} justifyContent={"flex-end"}>
-              <Button
-                variant="outlined"
-                endIcon={<ContentPasteGoIcon />}
-                onClick={() => navigate("/CreateClub")}
-              >
-                동아리 등록
-              </Button>
-            </Grid>
-          </Grid>
+
           <Grid item xs={12} spacing={1}>
             <Grid
               container
