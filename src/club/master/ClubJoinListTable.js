@@ -23,6 +23,7 @@ import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import instance from "../../api/instance";
 import { saveAs } from "file-saver";
+import Cookies from 'js-cookie';
 export default function ClubJoinListTable(props) {
   const location = useLocation();
   const [selected, setSelected] = useRecoilState(clubJoinIdState);
@@ -31,11 +32,11 @@ export default function ClubJoinListTable(props) {
   const [rejectReason, setRejectReason] = useRecoilState(memberRefuseReason);
   
   useEffect(() => {
-    const userId = 2; 
+    const uid = Cookies.get('userId'); 
 
     instance.get(`/join-club`, {
       headers: {
-        'userId': userId, 
+        'uid': uid, 
       },
     })
     .then((response) => {
@@ -193,18 +194,20 @@ export default function ClubJoinListTable(props) {
     }
 
     if (clubJoinList && clubJoinList.length > 0) {
+      console.log("clubJoinList", clubJoinList)
       const processedFiles = clubJoinList
         .map((clubJoin) => {
           const fileBase64 = clubJoin.file;
           if (fileBase64) {
             const fileBytes = decodeBase64(fileBase64);
             const fileBlob = new Blob([fileBytes], {
-              type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              //type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+               type: "application/hwp"
             });
             return {
               blob: fileBlob,
               fileName:
-                clubJoin.storedFileName ||
+                `${clubJoin.uploadFileName}` ||
                 `동아리 가입 신청서_${clubJoin.clubJoinId}.hwp`,
             };
           }
@@ -215,8 +218,8 @@ export default function ClubJoinListTable(props) {
     }
   }, [clubJoinList]);
 
-  const downloadFile = (clubJoinId) => {
-    const selectedFile = file.find((f) => f.fileName.includes(clubJoinId));
+  const downloadFile = (uploadFileName) => {
+    const selectedFile = file.find((f) => f.fileName.includes(uploadFileName));
 
     if (selectedFile) {
       console.log("선택된 파일 다운로드:", selectedFile);
@@ -267,16 +270,18 @@ export default function ClubJoinListTable(props) {
                         }}
                       />
                     </TableCell>
-                    <TableCell align="left">{row?.club?.clubId}</TableCell>
+                    <TableCell align="left">{row?.club?.clubName}</TableCell>
                     <TableCell align="left">{row?.title}</TableCell>
                     <TableCell align="left">{row?.member?.name}</TableCell>
+                    <TableCell align="left">{row?.member?.studentId}</TableCell>
+                    <TableCell align="left">{row?.member?.department}</TableCell>
                     <TableCell align="left">
                       <Button
                         variant="contained"
                         color="text"
                         onClick={(event) => {
                           event.stopPropagation(); 
-                          downloadFile(row?.clubJoinId); 
+                          downloadFile(row?.uploadFileName); 
                         }}
                       >
                        {row?.uploadFileName? (row?.uploadFileName) : "파일 다운로드" }
