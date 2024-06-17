@@ -75,18 +75,16 @@ export default function ButtonAppBar() {
               </Button>
             </>
           )}
-          <Avatar
+           {isLoggedIn && roleType=='MASTER' ?  ( <Avatar
             sx={{
-              // bgcolor: stringToColor(localStorage.getItem("name")),
+              bgcolor: stringToColor(Cookies.get('name')),
               cursor: "pointer"
             }}
             onClick={() => navigate("/MyPage")}
           >
-            My
-            </Avatar>
-            {/* {localStorage.getItem("name").substring(0, 1)}
-          
-          {/* <Button color="inherit" onClick={() => navigate("/ClubJoinList")}>동아리 관리</Button> */}
+            {Cookies.get('name').substring(0, 1)}
+          </Avatar>): ("")}
+         
           <Button color="inherit" onClick={() => navigate("/ClubApplicationList")}>동아리 신청관리</Button>
           <Button color="inherit" onClick={() => navigate("/ClubCreateList")}>동아리 신청조회</Button>
         </Toolbar>

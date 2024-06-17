@@ -22,14 +22,22 @@ const headCells = [
   },
   {
     id: "4",
-    label: "가입신청서",
+    label: "학번",
   },
   {
     id: "5",
-    label: "가입일",
+    label: "학과",
   },
   {
     id: "6",
+    label: "가입신청서",
+  },
+  {
+    id: "7",
+    label: "가입일",
+  },
+  {
+    id: "8",
     label: "상태",
   },
 ];

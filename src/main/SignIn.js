@@ -90,7 +90,7 @@ const Login = () => {
       console.error("Kakao SDK 또는 Auth 모듈이 로드되지 않았습니다.");
     }
   };
-
+  //console.log("COOKIESSIGN", Cookies.get('roleType'))
   const handleLogin = async (e) => {
     e.preventDefault();
     try {

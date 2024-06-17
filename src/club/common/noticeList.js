@@ -13,18 +13,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import instance from "../../api/instance";
-
+import Cookies from 'js-cookie';
 export default function NoticeList({ noticeData }) {
   console.log("noticeData", noticeData.postId);
   const navigate = useNavigate();
 
   const [imageData, setImageData] = useState(null);
 
-  const mockMember = {
-    studentId: 4,
-    name: "홍길동",
-  };
 
+  const userId = Cookies.get('userId');
   useEffect(() => {
     function decodeBase64(base64String) {
       return Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
@@ -41,7 +38,7 @@ export default function NoticeList({ noticeData }) {
 
   const handleNoticeDetail = () => {
     if (noticeData.noticeVisibilityType === 'CLUB') {
-        const isMember = noticeData.clubSummaryDTO?.members?.some(member => member.member.studentId === mockMember.studentId);
+        const isMember = noticeData.clubSummaryDTO?.members?.some(member => member.member.uid === userId);
         if (!isMember) {
             alert("해당 동아리 소속 회원만 조회 가능합니다.");
             return;
@@ -68,7 +65,7 @@ export default function NoticeList({ noticeData }) {
   };
 
   const isMember = noticeData.noticeVisibilityType === 'CLUB' 
-    ? noticeData.clubSummaryDTO.members.some(member => member.member.studentId === mockMember.studentId)
+    ? noticeData.clubSummaryDTO.members.some(member => member.member.uid === userId)
     : true;
 
   return (
@@ -140,12 +137,12 @@ export default function NoticeList({ noticeData }) {
                   해당 동아리 소속 회원만 열람 가능한 데이터 입니다.
                 </Typography>
               )}
-              <DeleteIcon
-                onClick={(e) => {
+              {userId === noticeData?.member?.uid && (
+                <DeleteIcon onClick={(e) => {
                   e.stopPropagation();
                   sendDeleteNotice(noticeData?.postId);
-                }}
-              />
+                }}/>
+              )}
             </CardContent>
           </Grid>
         </Card>

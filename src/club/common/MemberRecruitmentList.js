@@ -13,28 +13,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import instance from "../../api/instance";
+import Cookies from 'js-cookie';
 export default function MemberRecruitmentList({ recruitment }) {
   console.log("club", recruitment?.postId);
   const navigate = useNavigate();
 
   const [imageData, setImageData] = useState(null);
 
-  const mockMember = {
-    studentId: 2,
-    name: '홍길동',
-    clubMembers: [
-      {
-        club: { clubId: 9 },
-        memberStatus: 'ACTIVITY', 
-      },
-    ],
-  };
-
-  const isMemberInClub = mockMember.clubMembers.some(
-    (clubMember) => clubMember.club.clubId === recruitment?.postId && clubMember.memberStatus === 'ACTIVITY'
-  );
-
-  console.log("isMemberInClub", isMemberInClub);
+  const userId = Cookies.get('userId');
 
   const handleApply = () => {
     navigate(`/ClubJoin/${recruitment?.postId}`, { state: { recruitment } });
@@ -145,10 +131,12 @@ export default function MemberRecruitmentList({ recruitment }) {
               >
                 신청
               </Button> */}
-              <DeleteIcon   onClick={(e) => {
-                  e.stopPropagation(); 
+              {userId === recruitment?.member?.uid && (
+                <DeleteIcon onClick={(e) => {
+                  e.stopPropagation();
                   sendDeleteNotice(recruitment?.postId);
                 }}/>
+              )}
             </CardContent>
           </Grid>
         </Card>

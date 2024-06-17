@@ -20,6 +20,7 @@ import axios from "axios";
 import instance from "../../api/instance";
 import { useNavigate, useMatch } from "react-router";
 import { clubIdState } from "../../recoil/state/clubState";
+import Cookies from 'js-cookie';
 export default function CreateNoticeHeader({ isEdit = false }) {
   const [contents, setContents] = useRecoilState(contentsState);
   const [alignment, setAlignment] = useState("ENTIRE");
@@ -52,15 +53,18 @@ export default function CreateNoticeHeader({ isEdit = false }) {
   } 
   console.log("clubIddd", selectedClubId)
   const noticeId = notice?.noticeData?.postId;
-  const [member, setMember] = useState({
-    studentId: 1,
-    name: "1",
-  });
 
+  console.log("COOKIES", Cookies.get('JSESSIONID'))
+  
+  const [member, setMember] = useState({
+    uid: Cookies.get('userId'),
+    name: Cookies.get('name'),
+  });
+console.log("member", member);
   const clubId = selectedClubId[0];
 console.log("clubId임", clubId);
 const [club, setClub] = useState({ clubId: selectedClubId[0] });
-
+//const [club, setClub] = useState({ clubId: [1]});
 useEffect(() => {
   setClub({ clubId: selectedClubId[0] });
 }, [selectedClubId[0]]);

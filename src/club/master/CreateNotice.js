@@ -30,7 +30,7 @@ export default function CreateNotice() {
   const recruitmentData = matchRecruitmentUpdate && recruitment ? recruitment : null;
   console.log("clubs", clubs)
  console.log("여기", notice)
-  const studentId = 2;
+  const uid = 3528981213;
   console.log("noticeDatanoticeData", noticeData);
   console.log("recruitmentData임", recruitmentData)
   console.log("clubId 여기여기여기", clubId)
@@ -54,13 +54,13 @@ export default function CreateNotice() {
     
 useEffect(() => {
   instance
-      .get(`/club/my/${studentId}`)
+      .get(`/club/my/${uid}`)
       .then((response) => {
         setMyClubList(response?.data);
         console.log("myClub", response?.data)
       })
       .catch((error) => console.error(error));
-}, [studentId]);  
+}, [uid]);  
 
 useEffect(() => {
   if (noticeData) {
