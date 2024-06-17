@@ -3,11 +3,14 @@ import { Box, Grid, TextField, Button, Typography } from "@mui/material";
 import ButtonAppBar from "../../common/MainAppBar";
 import instance from "../../api/instance";
 import { useLocation, useNavigate, useMatch} from "react-router-dom";
+import Cookies from 'js-cookie';
+
 
 export default function CreateVideo(){
 
     const location = useLocation();
     const navigate = useNavigate();
+    const userId = Cookies.get('userId');
 
     
     const { video } = location.state || {};
@@ -20,8 +23,7 @@ export default function CreateVideo(){
     console.log("video: ", videoData);
     
     const [member, setMember] = useState({
-        studentId: 1,
-        name: "서영은",
+        uid: userId,
     });
 
     const [formData, setFormData] = useState({
@@ -65,12 +67,21 @@ export default function CreateVideo(){
             );
 
             console.log('Video post created:', response.data);
+            alert('활동 영상 등록이 완료되었습니다');
+
             navigate("/video"); 
 
         } catch (error) {
             console.error('Error creating video post:', error);
         }
     };
+
+    const handleCancel = () => {
+        alert('활동 영상 등록을 취소합니다.');
+        navigate("/video");
+      };
+    
+    
 
     return (
         <Box sx={{ flexDirection: "column", width: "100%" }}>
@@ -101,7 +112,12 @@ export default function CreateVideo(){
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" color="primary" fullWidth>
-                                신청
+                                등록
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="outlined" color="secondary" fullWidth onClick={handleCancel}>
+                                취소
                             </Button>
                         </Grid>
                     </Grid>

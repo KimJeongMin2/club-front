@@ -6,6 +6,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -43,6 +46,8 @@ export default function TabBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [value, setValue] = useState(getInitialTab());
+  const roleType = Cookies.get('roleType');
+
 
   function getInitialTab() {
     switch (location.pathname) {
@@ -117,10 +122,12 @@ export default function TabBar() {
           label="사진"
           sx={{ color: "black", marginLeft: "1em", marginRight: "1em", fontSize: '16px' }}
         />
-        <Tab
-          label="내 동아리 조회"
-          sx={{ color: "black", marginLeft: "1em", marginRight: "1em", fontSize: '16px' }}
-        />
+        {roleType === 'MASTER' && (
+          <Tab
+            label="내 동아리 조회"
+            sx={{ color: "black", marginLeft: "1em", marginRight: "1em", fontSize: '16px' }}
+          />
+        )}
       </Tabs>
     </Box>
   );

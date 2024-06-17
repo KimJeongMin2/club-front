@@ -16,11 +16,16 @@ import {
   import { useState } from "react";
   import instance from "../../api/instance";
   import { useNavigate } from "react-router";
+  import Cookies from 'js-cookie';
+
+
   export default function CreateVideoHeader({isEdit = false}) {
     const [contents, setContents] = useRecoilState(contentsState);
     const [title, setTitle] = useRecoilState(titleState);
     const location = useLocation();
     const navigate = useNavigate();
+    const userId = Cookies.get('userId');
+
   
     const video = location.state?.video;
   
@@ -58,10 +63,6 @@ import {
         console.error("Error creating/updating video:", error);
       }
     };
-  
-    // const handleChange = (event, newAlignment) => {
-    //   setAlignment(newAlignment);
-    // };
     
     return (
       <Box>
