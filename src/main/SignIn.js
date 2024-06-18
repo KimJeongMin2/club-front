@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import instance from "../api/instance";
-
+import axios from 'axios';
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
 const Login = () => {
@@ -88,18 +88,21 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await instance.post('/login', { userId, password }, { withCredentials: true });
+      const response = await axios.post('/api/login', { userId, password }, { withCredentials: true });
+      console.log("응답 데이터임")
       const userInfo = response.data;
-
-      if (userInfo.isLoggedIn===true) {
+      console.log("응답 데이터임",response.data)
+      if (response.status===200) {
         localStorage.setItem('userId', userInfo.id);
         localStorage.setItem('roleType', userInfo.roleType);
         localStorage.setItem('isLoggedIn', userInfo.isLoggedIn);
         localStorage.setItem('name', userInfo.name);
-        navigate('/'); // 로그인 후 홈으로 리다이렉트
+        navigate('/');
+        console.log('로그인 성공');
+        alert('로그인 성공');
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       alert('로그인 실패');
     }
   };
