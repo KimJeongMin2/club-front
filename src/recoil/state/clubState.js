@@ -74,3 +74,13 @@ export const clubRejectReasonState = atom({
     key: "clubRejectReasonState",
     default: {},
 });
+
+export const clubMyApplicationListState = atom({
+    key: "clubMyApplicationListState",
+    default: []
+});
+
+export const clubMyApplicationIdState = atom({
+    key: "clubMyApplicationIdState",
+    default: []
+});
