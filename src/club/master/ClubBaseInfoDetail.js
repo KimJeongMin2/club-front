@@ -24,17 +24,20 @@ export default function ClubBaseInfoDetail() {
   const [introduction, setIntroduction] = useState(""); // 동아리 소개
   const [meetingTime, setMeetingTime] = useState(""); // 정기 모임 시간
   const [registrationFile, setRegistrationFile] = useState(null);
+  const [registrationFileName, setRegistrationFileName] = useState(null);
   const [registrationUrl, setRegistrationUrl] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
   const [staffListFile, setStaffListFile] = useState(null);
+  const [staffListFileName, setStaffListFileName] = useState(null);
   const [staffListUrl, setStaffListUrl] = useState(null);
   const [isRegistering, setIsRegistering] = useState(false); // 등록 모드 상태
 
-  const handleFileUpload = (event, setter, urlSetter) => {
+  const handleFileUpload = (event, setter, urlSetter, nameSetter) => {
     const file = event.target.files[0];
     setter(file);
     urlSetter(URL.createObjectURL(file));
+    nameSetter(file.name);
   };
 
   const base64ToBlob = (base64, type) => {
@@ -226,7 +229,7 @@ export default function ClubBaseInfoDetail() {
                     accept="image/*"
                     id="photo-upload"
                     type="file"
-                    onChange={(e) => handleFileUpload(e, setPhotoFile, setPhotoUrl)}
+                    onChange={(e) => handleFileUpload(e, setPhotoFile, setPhotoUrl, () => {})}
                     style={{ display: "none" }}
                   />
                   <label htmlFor="photo-upload">
@@ -277,7 +280,7 @@ export default function ClubBaseInfoDetail() {
                       accept=".hwp,.pdf"
                       id="staff-list-upload"
                       type="file"
-                      onChange={(e) => handleFileUpload(e, setStaffListFile, setStaffListUrl)}
+                      onChange={(e) => handleFileUpload(e, setStaffListFile, setStaffListUrl, setStaffListFileName)}
                       style={{ display: "none" }}
                     />
                     <label htmlFor="staff-list-upload">
@@ -285,11 +288,16 @@ export default function ClubBaseInfoDetail() {
                         임원 명단 업로드
                       </Button>
                     </label>
+                    {staffListFileName && (
+                      <Typography variant="body2" sx={{ mt: 1 }}>
+                        {staffListFileName}
+                      </Typography>
+                    )}
                     <input
                       accept=".hwp,.pdf"
                       id="registration-upload"
                       type="file"
-                      onChange={(e) => handleFileUpload(e, setRegistrationFile, setRegistrationUrl)}
+                      onChange={(e) => handleFileUpload(e, setRegistrationFile, setRegistrationUrl, setRegistrationFileName)}
                       style={{ display: "none" }}
                     />
                     <label htmlFor="registration-upload">
@@ -297,6 +305,11 @@ export default function ClubBaseInfoDetail() {
                         동아리 가입 신청서 업로드
                       </Button>
                     </label>
+                    {registrationFileName && (
+                      <Typography variant="body2" sx={{ mt: 1 }}>
+                        {registrationFileName}
+                      </Typography>
+                    )}
                   </>
                 ) : (
                   <>
