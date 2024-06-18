@@ -21,17 +21,16 @@ export default function CreateVideo(){
     const videoData = matchUpdate && video ? video : null;
 
     console.log("video: ", videoData);
-    
-    const [member, setMember] = useState({
-        uid: userId,
-    });
+
 
     const [formData, setFormData] = useState({
         title: '',
         content: '',
-        member: member,
-    });
-
+        member: {
+            uid: userId
+          },    
+        });
+      
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -47,7 +46,7 @@ export default function CreateVideo(){
             const videoData = {
                 title: formData.title,
                 content: formData.content,
-                member: member
+                member: formData.member
             };
 
             console.log("videoData", videoData)

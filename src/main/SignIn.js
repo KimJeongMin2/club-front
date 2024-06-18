@@ -42,12 +42,9 @@ const Login = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const code = urlParams.get('code');
-    console.log("여긴 동작하니");
     if (code) {
-      console.log('좀');
       instance.get(`oauth/callback/kakao/login?code=${code}`, { withCredentials: true })
         .then(response => {
-          console.log('인가 코드 전송 완료:', response.data);
           const userInfo = response.data;
           navigate('/');
           if (userInfo.isLoggedIn) {
@@ -90,20 +87,22 @@ const Login = () => {
       console.error("Kakao SDK 또는 Auth 모듈이 로드되지 않았습니다.");
     }
   };
-  //console.log("COOKIESSIGN", Cookies.get('roleType'))
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await instance.post('/login', { userId, password });
+      const response = await instance.post('/login', { userId, password }, { withCredentials: true });
       const userInfo = response.data;
 
-      if (userInfo.isLoggedIn) {
+      if (userInfo.isLoggedIn===true) {
         localStorage.setItem('userId', userInfo.id);
         localStorage.setItem('roleType', userInfo.roleType);
         localStorage.setItem('isLoggedIn', userInfo.isLoggedIn);
+        localStorage.setItem('name', userInfo.name);
         navigate('/'); // 로그인 후 홈으로 리다이렉트
       }
     } catch (error) {
+      console.log(error)
       alert('로그인 실패');
     }
   };

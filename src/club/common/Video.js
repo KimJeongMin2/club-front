@@ -16,7 +16,7 @@ export default function Video() {
 
   useEffect(() => {
     instance
-      .get("/posts/video")
+      .get("posts/video")
       .then((response) => {
         setVideoList(response?.data);
         console.log("videoList", response?.data);

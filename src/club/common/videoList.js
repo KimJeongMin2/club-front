@@ -30,7 +30,7 @@ export default function VideoList({ videoData }) {
   const sendDeleteVideo = (postId) => {
     if (window.confirm("삭제하시겠습니까?")) {
       instance
-        .delete(`/posts/${postId}`, {
+        .delete(`posts/${postId}`, {
           withCredentials: true,
         })
         .then((response) => {
