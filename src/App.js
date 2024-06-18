@@ -34,6 +34,8 @@ import ClubDetail from "./club/common/ClubDetail";
 import Picture from "./club/common/Picture";
 import PictureDetail from "./club/master/PictureDetail";
 import CreatePicture from "./club/master/CreatePicture";
+import ClubCreateList from "./main/ClubCreateList";
+
 
 
 function App() {
@@ -83,7 +85,8 @@ function App() {
         <Route path="/Picture" element={<Picture/>}></Route>
         {/* <Route path="/PictureList" element={<PictureList/>}></Route> */}
         <Route path="/CreatePicture" element={<CreatePicture/>}></Route>
-        
+        <Route path="/ClubCreateList" element={<ClubCreateList/>}></Route>
+
       </Routes>
     </Router>
     </RecoilRoot>

@@ -26,7 +26,7 @@ export default function MyClub() {
         console.log("club", response?.data);
       })
       .catch((error) => console.error(error));
-  }, [userId, setClubList]);  // 의존성 배열에 userId와 setClubList 추가
+  }, [userId, setClubList]); 
 
   return (
     <Box sx={{ flexDirection: "column" }}>
