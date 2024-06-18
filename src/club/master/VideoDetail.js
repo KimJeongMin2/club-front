@@ -14,6 +14,7 @@ import {
   import CategoryIcon from "@mui/icons-material/Category";
   import ReactPlayer from "react-player";
   import instance from "../../api/instance";
+  import Cookies from 'js-cookie';
 
 
   export default function VideoDetail() {
@@ -24,9 +25,10 @@ import {
     const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
     const [title, setTitle] = useState(""); // 제목
     const [content, setContent] = useState(""); // 내용
+    const userId = Cookies.get('userId'); 
+
   
     useEffect(() => {
-        // location.state에 비디오 정보가 있는지 확인
         if (location.state && location.state.videoData) {
           const { videoData } = location.state;
           setVideoData(videoData);
@@ -64,6 +66,7 @@ import {
   
         );
   
+        alert("활동 영상 수정이 완료되었습니다.")
         console.log("Video updated:", response.data);
         navigate("/video");
         
@@ -81,15 +84,17 @@ import {
             <Button variant="contained" color="primary" onClick={() => navigate("/video")}>
              목록
             </Button>
-          {isEditing ? (
-            <Button variant="contained" color="primary" onClick={handleEditVideo}>
-              수정 완료
-            </Button>
-          ) : (
-            <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
-              수정
-            </Button>
-          )}
+            {userId === videoData?.member?.uid && (
+              isEditing ? (
+                <Button variant="contained" color="primary" onClick={handleEditVideo}>
+                  수정 완료
+                </Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
+                  수정
+                </Button>
+              )
+            )}
         </Grid>
         <Grid
           item

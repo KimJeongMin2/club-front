@@ -7,10 +7,12 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import instance from "../../api/instance";
 import { videoListState } from "../../recoil/state/videoState.js";
+import Cookies from 'js-cookie';
 
 export default function Video() {
   const navigate = useNavigate();
   const [videoList, setVideoList] = useRecoilState(videoListState);
+  const roleType = Cookies.get('roleType');
 
   useEffect(() => {
     instance
@@ -37,17 +39,19 @@ export default function Video() {
         }}
       >
         <Grid container direction="column" spacing={2}>
-          <Grid item xs={12}>
-            <Grid container direction={"row"} justifyContent={"flex-end"}>
-              <Button
-                variant="outlined"
-                endIcon={<ContentPasteGoIcon />}
-                onClick={() => navigate("/CreateVideo")}
-              >
-                활동 영상 등록
-              </Button>
+          {roleType === 'MASTER' && (
+            <Grid item xs={12}>
+              <Grid container direction={"row"} justifyContent={"flex-end"}>
+                <Button
+                  variant="outlined"
+                  endIcon={<ContentPasteGoIcon />}
+                  onClick={() => navigate("/CreateVideo")}
+                >
+                  활동 영상 등록
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
           <Grid item xs={12}>
             <Grid
               container
@@ -57,13 +61,12 @@ export default function Video() {
               alignItems={"center"}
             >
               {videoList?.map((data) => (
-                <Grid item xs={1} key={data.postId}> 
+                <Grid item xs={1} key={data.postId}>
                   <VideoList videoData={data} />
                 </Grid>
               ))}
             </Grid>
           </Grid>
-
         </Grid>
       </Box>
     </Box>

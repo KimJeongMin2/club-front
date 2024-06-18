@@ -7,29 +7,28 @@ import { useRecoilState } from "recoil";
 import instance from "../../api/instance";
 import { clubListState } from "../../recoil/state/clubState.js";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
+import Cookies from 'js-cookie';
+
 
 export default function MyClub() {
 
   const location = useLocation();
   const navigate = useNavigate();  
 
-  const [member, setMember] = useState({
-    studentId:1,
-    name: "김철수",
-  });
+  const userId = Cookies.get('userId');
 
   const [clubList, setClubList] = useRecoilState(clubListState);
     
   useEffect(() => {
     console.log("실행");
       instance
-          .get(`/club/my/${member.studentId}`)
+          .get(`/club/my/${userId}`)
           .then((response) => {
             setClubList(response?.data);
             console.log("club", response?.data)
           })
           .catch((error) => console.error(error));
-  }, [member]);  
+  });  
 
   return (
     <Box sx={{ flexDirection: "column" }}>
