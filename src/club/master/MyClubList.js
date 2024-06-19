@@ -148,13 +148,13 @@ export default function MyClubList({ club }) {
                   신청자 전화번호: {club?.applicantPhone}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  지도교수 성함: {club?.proffessorName}
+                  지도교수 성함: {club?.professorName}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  지도교수 전공: {club?.proffessorMajor}
+                  지도교수 전공: {club?.professorMajor}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  지도교수 전화번호: {club?.proffessorPhone}
+                  지도교수 전화번호: {club?.professorPhone}
                 </Typography>
               </Stack>
             </CardContent>

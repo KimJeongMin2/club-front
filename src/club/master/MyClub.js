@@ -9,9 +9,7 @@ import { clubListState } from "../../recoil/state/clubState.js";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import Cookies from 'js-cookie';
 
-
 export default function MyClub() {
-
   const location = useLocation();
   const navigate = useNavigate();  
 
@@ -21,14 +19,14 @@ export default function MyClub() {
     
   useEffect(() => {
     console.log("실행");
-      instance
-          .get(`/club/my/${userId}`)
-          .then((response) => {
-            setClubList(response?.data);
-            console.log("club", response?.data)
-          })
-          .catch((error) => console.error(error));
-  });  
+    instance
+      .get(`/club/my/${userId}`)
+      .then((response) => {
+        setClubList(response?.data);
+        console.log("club", response?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [userId, setClubList]); 
 
   return (
     <Box sx={{ flexDirection: "column" }}>
@@ -45,8 +43,7 @@ export default function MyClub() {
         }}
       >
         <Grid container direction="column" spacing={2}>
-        <Grid item xs={12}>
-          </Grid>
+          <Grid item xs={12}></Grid>
           <Grid item xs={12}>
             <Grid
               container
