@@ -10,7 +10,6 @@ import { useNavigate, useLocation } from "react-router-dom"; // useLocation ì¶”ê
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import instance from "../api/instance";
-import axios from 'axios';
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
 const Login = () => {
