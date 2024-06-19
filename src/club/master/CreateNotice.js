@@ -12,7 +12,7 @@ import FileUploader from './FlieUploader';
 import { clubIdState, myClubListState } from '../../recoil/state/clubState';
 import ClubDialog from './clubListDialog';
 import instance from '../../api/instance';
-
+import Cookies from 'js-cookie';
 export default function CreateNotice() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function CreateNotice() {
   const recruitmentData = matchRecruitmentUpdate && recruitment ? recruitment : null;
   console.log("clubs", clubs)
  console.log("여기", notice)
-  const uid = 3528981213;
+  const uid = Cookies.get('userId');
   console.log("noticeDatanoticeData", noticeData);
   console.log("recruitmentData임", recruitmentData)
   console.log("clubId 여기여기여기", clubId)
