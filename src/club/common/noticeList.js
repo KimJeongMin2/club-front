@@ -39,13 +39,25 @@ export default function NoticeList({ noticeData }) {
   const handleNoticeDetail = () => {
     if (noticeData.noticeVisibilityType === 'CLUB') {
         const isMember = noticeData.clubSummaryDTO?.members?.some(member => member.member.uid === userId);
-        if (!isMember) {
+        const isPresident = noticeData.member.uid === userId;
+        if (!isMember && !isPresident) {
             alert("해당 동아리 소속 회원만 조회 가능합니다.");
             return;
         }
     }
     navigate(`/NoticeDetail/${noticeData?.postId}`, { state: { noticeData } });
   };
+
+  // const handleNoticeDetail = () => {
+  //   if (noticeData.noticeVisibilityType === 'CLUB') {
+  //       const isMember = noticeData.clubSummaryDTO?.members?.some(member => member.member.uid === userId);
+  //       if (!isMember) {
+  //           alert("해당 동아리 소속 회원만 조회 가능합니다.");
+  //           return;
+  //       }
+  //   }
+  //   navigate(`/NoticeDetail/${noticeData?.postId}`, { state: { noticeData } });
+  // };
   const sendDeleteNotice = (postId) => {
     if (window.confirm("삭제하시겠습니까?")) {
       instance
@@ -64,8 +76,12 @@ export default function NoticeList({ noticeData }) {
     }
   };
 
+  // const isMember = noticeData.noticeVisibilityType === 'CLUB' 
+  //   ? noticeData.clubSummaryDTO.members.some(member => member.member.uid === userId)
+  //   : true;
+
   const isMember = noticeData.noticeVisibilityType === 'CLUB' 
-    ? noticeData.clubSummaryDTO.members.some(member => member.member.uid === userId)
+    ? noticeData.clubSummaryDTO.members.some(member => member.member.uid === userId) || noticeData.member.uid === userId
     : true;
 
   return (

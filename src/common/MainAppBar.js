@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
         console.error(error);
       });
   };
-  console.log("COOKIES", Cookies.get('JSESSIONID'))
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -76,7 +76,7 @@ export default function ButtonAppBar() {
               </Button>
             </>
           )}
-          {isLoggedIn && roleType=='MASTER' ?  ( <Avatar
+           {isLoggedIn && roleType=='MASTER' ?  ( <Avatar
             sx={{
               bgcolor: stringToColor(Cookies.get('name')),
               cursor: "pointer"

@@ -6,9 +6,10 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
-import instance from "../api/instance";
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import instance from "../api/instance";
 const KAKAO_SDK_URL = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
 const Login = () => {
@@ -19,6 +20,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [sessionInfo, setSessionInfo] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   useEffect(() => {
     const loadKakaoSdk = async () => {
@@ -106,6 +108,8 @@ const Login = () => {
       alert('로그인 실패');
     }
   };
+
+
 
   return (
     <Grid
